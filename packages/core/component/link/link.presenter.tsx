@@ -1,8 +1,11 @@
 import NextLink, { type LinkProps as NextLinkProps } from 'next/link';
 import { type ComponentPropsWithoutRef, type ElementRef, type ReactNode, forwardRef } from 'react';
 
-type LinkProps<T> =
-  | (ComponentPropsWithoutRef<typeof NextLink> & NextLinkProps<T>)
+export type LinkProps<T> =
+  | (ComponentPropsWithoutRef<typeof NextLink> &
+      NextLinkProps<T> & {
+        external?: false;
+      })
   | (ComponentPropsWithoutRef<'a'> & {
       external: true;
     });
