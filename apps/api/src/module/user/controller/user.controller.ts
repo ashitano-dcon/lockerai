@@ -26,17 +26,4 @@ export class UserController {
 
     return foundUser;
   }
-
-  @Get('/users/:hashedFingerprintId')
-  @UsePipes(ValidationPipe)
-  async findUserByHashedFingerprintId(@Param('hashedFingerprintId') hashedFingerprintId: string): Promise<User | null> {
-    this.logger.log(`${this.findUserByHashedFingerprintId.name} called`);
-
-    const foundUser = await this.userUseCase.findUserByHashedFingerprintId(hashedFingerprintId);
-    if (foundUser === null) {
-      throw new HttpException(`No user found with fingerprint ${hashedFingerprintId}.`, HttpStatus.NOT_FOUND);
-    }
-
-    return foundUser;
-  }
 }
