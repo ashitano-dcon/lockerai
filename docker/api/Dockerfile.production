@@ -28,8 +28,8 @@ ENV NODE_ENV=production
 
 WORKDIR /lockerai/
 
-COPY --from=alpine /lib/libz.so.1 /lib/libz.so.1
-COPY --from=alpine /lib/libc.musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1
+# COPY --from=alpine /lib/libz.so.1 /lib/libz.so.1
+# COPY --from=alpine /lib/libc.musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1
 COPY --chown=nonroot:nonroot --from=builder /lockerai/node_modules/ ./node_modules/
 COPY --chown=nonroot:nonroot --from=builder /lockerai/apps/api/node_modules/ ./apps/api/node_modules/
 COPY --chown=nonroot:nonroot --from=builder /lockerai/apps/api/dist/ ./apps/api/dist/
