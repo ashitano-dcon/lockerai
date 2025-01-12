@@ -20,7 +20,7 @@ export class DrawerController {
   async putInLostItem(@Body() updateConnectionBody: UpdateConnectionBody): Promise<Drawer> {
     this.logger.log(`${this.putInLostItem.name} called`);
 
-    const foundDrawer = await this.drawerUseCase.putInLostItem(updateConnectionBody.hashedFingerprintId);
+    const foundDrawer = await this.drawerUseCase.putInLostItem(updateConnectionBody.userId);
 
     return foundDrawer;
   }
@@ -30,7 +30,7 @@ export class DrawerController {
   async takeOutLostItem(@Body() updateConnectionBody: UpdateConnectionBody): Promise<Drawer> {
     this.logger.log(`${this.takeOutLostItem.name} called`);
 
-    const foundDrawer = await this.drawerUseCase.takeOutLostItem(updateConnectionBody.hashedFingerprintId);
+    const foundDrawer = await this.drawerUseCase.takeOutLostItem(updateConnectionBody.userId);
 
     return foundDrawer;
   }

@@ -185,7 +185,7 @@ export class LangchainService {
 
     this.llm = new ChatOpenAI({
       openAIApiKey: this.envService.OpenaiApiKey,
-      modelName: 'gpt-4-turbo-preview',
+      modelName: 'gpt-4o',
       maxTokens: 3000,
       temperature: 0.2,
     });
@@ -198,8 +198,8 @@ export class LangchainService {
 
     this.lvlm = new ChatOpenAI({
       openAIApiKey: this.envService.OpenaiApiKey,
-      modelName: 'gpt-4-vision-preview',
-      maxTokens: 1000,
+      modelName: 'gpt-4o',
+      maxTokens: 3000,
       temperature: 0.2,
     });
 

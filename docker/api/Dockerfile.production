@@ -9,9 +9,14 @@ FROM node:${NODE_VERSION}-slim AS builder
 ENV TURBO_TEAM=${TURBO_TEAM}
 ENV TURBO_TOKEN=${TURBO_TOKEN}
 
-WORKDIR /lockerai/
+# hadolint ignore=DL3008
+RUN apt-get update \
+  && apt-get --no-install-recommends -y install openssl \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists \
+  && yarn global add pnpm
 
-RUN yarn global add pnpm
+WORKDIR /lockerai/
 
 COPY ./ ./
 RUN pnpm install --frozen-lockfile
@@ -23,6 +28,8 @@ ENV NODE_ENV=production
 
 WORKDIR /lockerai/
 
+COPY --from=alpine /lib/libz.so.1 /lib/libz.so.1
+COPY --from=alpine /lib/libc.musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1
 COPY --chown=nonroot:nonroot --from=builder /lockerai/node_modules/ ./node_modules/
 COPY --chown=nonroot:nonroot --from=builder /lockerai/apps/api/node_modules/ ./apps/api/node_modules/
 COPY --chown=nonroot:nonroot --from=builder /lockerai/apps/api/dist/ ./apps/api/dist/

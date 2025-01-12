@@ -1,3 +1,3 @@
 export class UpdateConnectionBody {
-  hashedFingerprintId!: string;
+  userId!: string;
 }

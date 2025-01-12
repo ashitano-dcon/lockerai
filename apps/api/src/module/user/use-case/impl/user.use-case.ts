@@ -19,6 +19,12 @@ export class UserUseCase implements UserUseCaseInterface {
     return foundUser;
   }
 
+  async findUserById(id: Parameters<UserUseCaseInterface['findUserById']>[0]): Promise<User | null> {
+    const foundUser = await this.userRepository.find(id);
+
+    return foundUser;
+  }
+
   async findUserByHashedFingerprintId(
     hashedFingerprintId: Parameters<UserUseCaseInterface['findUserByHashedFingerprintId']>[0],
   ): Promise<User | null> {

@@ -4,8 +4,8 @@ import type { User } from '#api/module/user/domain/user.model';
 export interface LostItemRepositoryInterface {
   find(lostItemId: LostItem['id']): Promise<LostItem | null>;
   findByDrawerId(drawerId: NonNullable<LostItem['drawerId']>): Promise<LostItem | null>;
-  findByReporterHashedFingerprintId(hashedFingerprintId: NonNullable<User['hashedFingerprintId']>): Promise<LostItem | null>;
-  findByOwnerHashedFingerprintId(hashedFingerprintId: NonNullable<User['hashedFingerprintId']>): Promise<LostItem | null>;
+  findByReporterId(id: NonNullable<User['id']>): Promise<LostItem | null>;
+  findByOwnerId(id: NonNullable<User['id']>): Promise<LostItem | null>;
   findMany(lostItemIds: LostItem['id'][]): Promise<LostItem[]>;
   findManyByReporterIds(reporterIds: LostItem['reporterId'][]): Promise<LostItem[]>;
   findManyByOwnerIds(ownerIds: NonNullable<LostItem['ownerId']>[]): Promise<LostItem[]>;

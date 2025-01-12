@@ -29,13 +29,11 @@ export class LostItemRepository implements LostItemRepositoryInterface {
     return new LostItem(lostItem);
   }
 
-  async findByReporterHashedFingerprintId(
-    hashedFingerprintId: Parameters<LostItemRepositoryInterface['findByReporterHashedFingerprintId']>[0],
-  ): Promise<LostItem | null> {
+  async findByReporterId(id: Parameters<LostItemRepositoryInterface['findByReporterId']>[0]): Promise<LostItem | null> {
     const lostItem = await this.prismaService.lostItem.findFirst({
       where: {
         reporter: {
-          hashedFingerprintId,
+          id,
         },
       },
       orderBy: {
@@ -49,13 +47,11 @@ export class LostItemRepository implements LostItemRepositoryInterface {
     return new LostItem(lostItem);
   }
 
-  async findByOwnerHashedFingerprintId(
-    hashedFingerprintId: Parameters<LostItemRepositoryInterface['findByOwnerHashedFingerprintId']>[0],
-  ): Promise<LostItem | null> {
+  async findByOwnerId(id: Parameters<LostItemRepositoryInterface['findByOwnerId']>[0]): Promise<LostItem | null> {
     const lostItem = await this.prismaService.lostItem.findFirst({
       where: {
         owner: {
-          hashedFingerprintId,
+          id,
         },
       },
       orderBy: {

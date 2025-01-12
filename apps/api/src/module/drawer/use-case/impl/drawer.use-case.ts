@@ -19,10 +19,10 @@ export class DrawerUseCase implements DrawerUseCaseInterface {
     private readonly userRepository: UserRepositoryInterface,
   ) {}
 
-  async putInLostItem(reporterHashedFingerprintId: Parameters<DrawerUseCaseInterface['putInLostItem']>[0]): Promise<Drawer> {
-    const foundLostItem = await this.lostItemRepository.findByReporterHashedFingerprintId(reporterHashedFingerprintId);
+  async putInLostItem(reporterId: Parameters<DrawerUseCaseInterface['putInLostItem']>[0]): Promise<Drawer> {
+    const foundLostItem = await this.lostItemRepository.findByReporterId(reporterId);
     if (!foundLostItem) {
-      throw new HttpException('Current delivering lost item not found. The hashedFingerprintId may be invalid.', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Current delivering lost item not found. The Id may be invalid.', HttpStatus.BAD_REQUEST);
     }
     if (foundLostItem.hasDelivered) {
       throw new HttpException('The lost item has already been delivered.', HttpStatus.BAD_REQUEST);
@@ -37,16 +37,16 @@ export class DrawerUseCase implements DrawerUseCaseInterface {
 
     await Promise.all([
       this.lostItemRepository.update(foundLostItem.id, { deliveredAt: new Date() }),
-      this.userRepository.updateByHashedFingerprintId(reporterHashedFingerprintId, { lostAndFoundState: 'NONE' }),
+      this.userRepository.update(reporterId, { lostAndFoundState: 'NONE' }),
     ]);
 
     return updatedDrawer;
   }
 
-  async takeOutLostItem(ownerHashedFingerprintId: Parameters<DrawerUseCaseInterface['takeOutLostItem']>[0]): Promise<Drawer> {
-    const foundLostItem = await this.lostItemRepository.findByOwnerHashedFingerprintId(ownerHashedFingerprintId);
+  async takeOutLostItem(ownerId: Parameters<DrawerUseCaseInterface['takeOutLostItem']>[0]): Promise<Drawer> {
+    const foundLostItem = await this.lostItemRepository.findByOwnerId(ownerId);
     if (!foundLostItem) {
-      throw new HttpException('Current retrieving lost item not found. The hashedFingerprintId may be invalid.', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Current retrieving lost item not found. The Id may be invalid.', HttpStatus.BAD_REQUEST);
     }
     if (foundLostItem.hasRetrieved) {
       throw new HttpException('The lost item has already been retrieved.', HttpStatus.BAD_REQUEST);
@@ -61,7 +61,7 @@ export class DrawerUseCase implements DrawerUseCaseInterface {
 
     await Promise.all([
       this.lostItemRepository.update(foundLostItem.id, { retrievedAt: new Date() }),
-      this.userRepository.updateByHashedFingerprintId(ownerHashedFingerprintId, { lostAndFoundState: 'NONE' }),
+      this.userRepository.update(ownerId, { lostAndFoundState: 'NONE' }),
     ]);
 
     return updatedDrawer;
