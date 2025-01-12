@@ -4,6 +4,7 @@ on: push
 
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
+  LOCKER_ID: "e6c071dd-80b1-7f90-babe-4e2169a5ae31"
   NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
   NEXT_PUBLIC_WS_ENDPOINT: ${{ secrets.NEXT_PUBLIC_WS_ENDPOINT }}
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
