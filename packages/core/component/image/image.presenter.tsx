@@ -1,13 +1,10 @@
 'use client';
 
-import NextImage from 'next/image';
-import { unstable_getImgProps as getImgProps } from 'next/image';
+import NextImage, { unstable_getImgProps as getImgProps } from 'next/image';
 import type { ComponentPropsWithRef, ElementRef } from 'react';
 import { forwardRef, useMemo } from 'react';
 
-const isImageSourceRemote = (src: string | unknown): src is string => {
-  return typeof src === 'string';
-};
+const isImageSourceRemote = (src: string | unknown): src is string => typeof src === 'string';
 
 type ImageProps = ComponentPropsWithRef<typeof NextImage>;
 

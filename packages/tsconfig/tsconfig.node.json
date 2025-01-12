@@ -3,6 +3,7 @@
   // https://github.com/tsconfig/bases/blob/main/bases/node-lts.json
   "extends": ["./tsconfig.strictest.json", "@tsconfig/node-lts/tsconfig"],
   "compilerOptions": {
+    "target": "ESNext",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   }

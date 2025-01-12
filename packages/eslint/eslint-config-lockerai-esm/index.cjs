@@ -8,6 +8,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    "airbnb-base",
     "airbnb-typescript/base",
     "lockerai-base",
     "plugin:@typescript-eslint/recommended",
@@ -36,6 +37,12 @@ module.exports = {
         "@typescript-eslint/no-var-requires": "off",
         "import/no-default-export": "off",
         "import/prefer-default-export": "off",
+      },
+    },
+    {
+      files: ["./**/*.cjs"],
+      rules: {
+        "global-require": "off",
       },
     },
   ],

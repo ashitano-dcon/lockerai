@@ -11,22 +11,13 @@ export class EnvService {
     this.logger.log(`NODE_ENV: ${this.NodeEnv}`);
   }
 
-  get NodeEnv(): 'development' | 'production' | 'test' {
-    const nodeEnv = this.configService.get<'development' | 'production' | 'test'>('NODE_ENV', 'development');
+  get ApolloStudioConfig(): ApolloConfigInput {
+    const apolloConfigInput: ApolloConfigInput = {
+      key: this.configService.getOrThrow('APOLLO_KEY'),
+      graphRef: this.configService.getOrThrow('APOLLO_GRAPH_REF'),
+    };
 
-    return nodeEnv;
-  }
-
-  get Port(): number {
-    const port = this.configService.get<number>('PORT', 4000);
-
-    return port;
-  }
-
-  get DatabaseUrl(): string {
-    const databaseUrl = this.configService.getOrThrow<string>('DATABASE_URL');
-
-    return databaseUrl;
+    return apolloConfigInput;
   }
 
   get DatabaseSslCert(): string {
@@ -35,12 +26,51 @@ export class EnvService {
     return databaseSslCert;
   }
 
-  get ApolloStudioConfig(): ApolloConfigInput {
-    const apolloConfigInput: ApolloConfigInput = {
-      key: this.configService.getOrThrow('APOLLO_KEY'),
-      graphRef: this.configService.getOrThrow('APOLLO_GRAPH_REF'),
-    };
+  get DatabaseUrl(): string {
+    const databaseUrl = this.configService.getOrThrow<string>('DATABASE_URL');
 
-    return apolloConfigInput;
+    return databaseUrl;
+  }
+
+  get HuggingfacehubApiToken(): string {
+    const huggingfacehubApiToken = this.configService.getOrThrow<string>('HUGGINGFACEHUB_API_TOKEN');
+
+    return huggingfacehubApiToken;
+  }
+
+  get IdentificationNnEndpoint(): string {
+    const identificationNnEndpoint = this.configService.getOrThrow<string>('IDENTIFICATION_NN_ENDPOINT');
+
+    return identificationNnEndpoint;
+  }
+
+  get NodeEnv(): 'development' | 'production' | 'test' {
+    const nodeEnv = this.configService.get<'development' | 'production' | 'test'>('NODE_ENV', 'development');
+
+    return nodeEnv;
+  }
+
+  get OpenaiApiKey(): string {
+    const openaiApiKey = this.configService.getOrThrow<string>('OPENAI_API_KEY');
+
+    return openaiApiKey;
+  }
+
+  get Port(): number {
+    const port = this.configService.get<number>('PORT', 4000);
+
+    return port;
+  }
+
+  get SupabaseServiceRoleKey(): string {
+    const supabaseServiceRoleKey = this.configService.getOrThrow<string>('SUPABASE_SERVICE_ROLE_KEY');
+
+    return supabaseServiceRoleKey;
+  }
+
+  get SupabaseUrl(): string {
+    const supabaseUrl = this.configService.getOrThrow<string>('SUPABASE_URL');
+
+    return supabaseUrl;
   }
 }

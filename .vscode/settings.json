@@ -161,6 +161,7 @@
   "eslint.workingDirectories": [
     "apps/api/",
     "apps/catalog/",
+    "apps/locker-dashboard/",
     "apps/website/",
     "packages/core/",
     "packages/design-token/",
@@ -174,9 +175,18 @@
   "files.encoding": "utf8",
   "files.eol": "\n",
   "jest.jestCommandLine": "pnpm all -- test",
-  "tailwindCSS.classAttributes": ["class", "className"],
+  "Prettier-SQL.SQLFlavourOverride": "postgresql",
+  "Prettier-SQL.keywordCase": "upper",
+  "tailwindCSS.classAttributes": ["class", "className", "classNames"],
   "tailwindCSS.experimental.classRegex": [
     ["tv\\(([^)]*)\\)", "[\"']([^\"']*).*?[\"']"],
-    ["className:.*cn\\(([^)]*)\\)", "[\"']([^\"']*).*?[\"']"]
-  ]
+    ["className:.*cn\\(([^)]*)\\)", "[\"']([^\"']*).*?[\"']"],
+    ["classNames:.*cn\\(([^)]*)\\)", "[\"']([^\"']*).*?[\"']"]
+  ],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  }
 }

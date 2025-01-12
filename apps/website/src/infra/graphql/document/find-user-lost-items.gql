@@ -1,0 +1,37 @@
+query FindUserLostItems($where: UserWhereAuthIdInput!) {
+  findUser(where: $where) {
+    lostAndFoundState
+    ownedLostItems {
+      deliveredAt
+      description
+      id
+      imageUrls
+      ownedAt
+      owner {
+        ...UserPublicMeta
+      }
+      reportedAt
+      reporter {
+        ...UserPublicMeta
+      }
+      retrievedAt
+      title
+    }
+    reportedLostItems {
+      deliveredAt
+      description
+      id
+      imageUrls
+      ownedAt
+      owner {
+        ...UserPublicMeta
+      }
+      reportedAt
+      reporter {
+        ...UserPublicMeta
+      }
+      retrievedAt
+      title
+    }
+  }
+}

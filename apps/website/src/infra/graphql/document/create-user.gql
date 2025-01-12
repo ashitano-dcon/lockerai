@@ -1,0 +1,12 @@
+mutation CreateUser($user: UserCreateInput!) {
+  createUser(user: $user) {
+    authId
+    avatarUrl
+    createdAt
+    email
+    id
+    isDiscloseAsOwner
+    lostAndFoundState
+    name
+  }
+}

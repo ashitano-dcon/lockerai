@@ -17,8 +17,8 @@ const meta: Meta<typeof Select> = {
 export default meta;
 
 export const Default: Story = {
-  render: () => (
-    <Select>
+  render: ({ ...props }) => (
+    <Select {...props}>
       <SelectTrigger>
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>

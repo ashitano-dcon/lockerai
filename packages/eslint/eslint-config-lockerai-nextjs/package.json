@@ -1,7 +1,7 @@
 {
   "name": "eslint-config-lockerai-nextjs",
   "version": "0.1.0",
-  "repository": "https://github.com/dino3616/lockerai.git",
+  "repository": "https://github.com/nitic-pbl-p8/lockerai.git",
   "license": "MIT",
   "private": true,
   "main": "index.cjs",

@@ -5,8 +5,7 @@
   "compilerOptions": {
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "#core/*": ["../core/*"],
-      "#markdown/*": ["../markdown/*"]
+      "#core/*": ["../core/*"]
     },
     "target": "ESNext"
   }

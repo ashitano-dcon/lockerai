@@ -1,5 +1,11 @@
 {
   "projects": {
+    "locker-dashboard": {
+      "schema": ["./apps/locker-dashboard/graphql.schema.json"],
+      "documents": [
+        "./apps/locker-dashboard/src/infra/graphql/document/**/*.gql"
+      ]
+    },
     "website": {
       "schema": ["./apps/website/graphql.schema.json"],
       "documents": ["./apps/website/src/infra/graphql/document/**/*.gql"]

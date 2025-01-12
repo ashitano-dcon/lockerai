@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 type GetBaseUrlConfig = {
-  app: 'api' | 'api-ws' | 'website';
+  app: 'api' | 'api-ws' | 'locker-dashboard' | 'website';
 };
 
 const getApiBaseUrl = (): URL => {
@@ -9,8 +9,7 @@ const getApiBaseUrl = (): URL => {
   if (process.env['NEXT_PUBLIC_GRAPHQL_ENDPOINT']) {
     baseUrl = new URL(process.env['NEXT_PUBLIC_GRAPHQL_ENDPOINT']);
   } else if (process.env['NODE_ENV'] === 'production') {
-    // TODO: Return the collect base URL.
-    baseUrl = new URL('https://api.locker.ai');
+    baseUrl = new URL('https://lockerai-production.up.railway.app/graphql');
   } else {
     baseUrl = new URL(`http://localhost:${process.env['PORT'] || 4000}`);
   }
@@ -23,8 +22,7 @@ const getApiWsBaseUrl = (): URL => {
   if (process.env['NEXT_PUBLIC_WS_ENDPOINT']) {
     baseUrl = new URL(process.env['NEXT_PUBLIC_WS_ENDPOINT']);
   } else if (process.env['NODE_ENV'] === 'production') {
-    // TODO: Return the collect base URL.
-    baseUrl = new URL('wss://api.locker.ai');
+    baseUrl = new URL('wss://lockerai-production.up.railway.app/graphql');
   } else {
     baseUrl = new URL(`ws://localhost:${process.env['PORT'] || 4000}`);
   }
@@ -38,12 +36,16 @@ const getWebsiteBaseUrl = (): URL => {
     baseUrl = new URL('https://lockerai.vercel.app');
   } else if (process.env['VERCEL_URL']) {
     baseUrl = new URL(`https://${process.env['VERCEL_URL']}`);
+  } else if (process.env['NEXT_PUBLIC_VERCEL_URL']) {
+    baseUrl = new URL(`https://${process.env['NEXT_PUBLIC_VERCEL_URL']}`);
   } else {
     baseUrl = new URL(`http://localhost:${process.env['PORT'] || 3000}`);
   }
 
   return baseUrl;
 };
+
+const getLockerDashboardBaseUrl = (): URL => new URL(`http://localhost:${process.env['PORT'] || 3000}`);
 
 /**
  * Get the base URL of the app.
@@ -59,6 +61,7 @@ export const getBaseUrl = ({ app }: GetBaseUrlConfig): URL => {
   const baseUrl = match<typeof app, URL>(app)
     .with('api', () => getApiBaseUrl())
     .with('api-ws', () => getApiWsBaseUrl())
+    .with('locker-dashboard', () => getLockerDashboardBaseUrl())
     .with('website', () => getWebsiteBaseUrl())
     .exhaustive();
 

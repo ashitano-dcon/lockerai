@@ -1,0 +1,18 @@
+mutation OwnLostItem($lostItem: LostItemWhereIdInput!, $user: UserWhereAuthIdInput!) {
+  ownLostItem(lostItem: $lostItem, user: $user) {
+    deliveredAt
+    description
+    id
+    imageUrls
+    ownedAt
+    owner {
+      ...UserPublicMeta
+    }
+    reportedAt
+    reporter {
+      ...UserPublicMeta
+    }
+    retrievedAt
+    title
+  }
+}

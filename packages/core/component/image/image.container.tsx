@@ -15,13 +15,18 @@ export const Image = forwardRef<ElementRef<typeof ImagePresenter>, Omit<ImagePro
   const placeholder = priority ? undefined : 'blur';
 
   return (
-    <Skeleton effect-hidden={isLoaded || !placeholder} {...skeleton}>
+    <Skeleton
+      variant={{
+        'effect-hidden': isLoaded || !placeholder,
+      }}
+      {...skeleton}
+    >
       <ImagePresenter
         ref={ref}
         placeholder={placeholder}
         priority={priority}
         onLoadStart={() => setIsLoaded(false)}
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoad={() => setIsLoaded(true)}
         {...props}
       />
     </Skeleton>

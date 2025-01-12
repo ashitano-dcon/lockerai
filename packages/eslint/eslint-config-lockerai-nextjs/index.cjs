@@ -27,6 +27,13 @@ module.exports = {
       },
     },
     {
+      files: ["./src/app/**/route.ts"],
+      rules: {
+        "import/no-default-export": "off",
+        "import/prefer-default-export": "off",
+      },
+    },
+    {
       files: ["./src/app/api/**", "./src/pages/api/**"],
       rules: {
         "import/no-default-export": "off",

@@ -28,164 +28,6 @@ jobs:
           token: ${{ github.token }}
           filters: .github/filter.yaml
 
-  install:
-    runs-on: ubuntu-latest
-    needs: filter
-    if: needs.filter.outputs.app == 'true'
-    outputs:
-      STORE_PATH: ${{ steps.pnpm-env.outputs.STORE_PATH }}
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: "package.json"
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          run_install: false
-
-      - name: setup pnpm environment variable
-        id: pnpm-env
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: cache pnpm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-env.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
-
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
-
-  format:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: "package.json"
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          run_install: false
-
-      - name: restore pnpm dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ needs.install.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
-
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: format
-        run: pnpm turbo run fmt
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: "package.json"
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          run_install: false
-
-      - name: restore pnpm dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ needs.install.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
-
-      - name: install
-        run: pnpm install --frozen-lockfile
-
-      - name: lint
-        run: pnpm turbo run lint -- --max-warnings=0
-
-  style-lint:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: "package.json"
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          run_install: false
-
-      - name: restore pnpm dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ needs.install.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
-
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: lint styles
-        run: pnpm turbo run style -- --max-warnings=0
-
-  build:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: "package.json"
-
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          run_install: false
-
-      - name: restore pnpm dependencies
-        uses: actions/cache/restore@v3
-        with:
-          path: ${{ needs.install.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
-
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: build
-        run: pnpm turbo run build
-
   test:
     runs-on: ubuntu-latest
     env:
@@ -194,7 +36,7 @@ jobs:
       SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET }}
       SUPABASE_AUTH_EXTERNAL_GOOGLE_URL: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_URL }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-    needs: [install, build]
+    needs: filter
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -215,10 +57,14 @@ jobs:
         with:
           run_install: false
 
-      - name: restore pnpm dependencies
-        uses: actions/cache/restore@v3
+      - name: setup pnpm environment variable
+        id: pnpm-env
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: cache pnpm dependencies
+        uses: actions/cache@v3
         with:
-          path: ${{ needs.install.outputs.STORE_PATH }}
+          path: ${{ steps.pnpm-env.outputs.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: ${{ runner.os }}-pnpm-dependencies-
 
@@ -233,7 +79,7 @@ jobs:
 
   app-test-check:
     runs-on: ubuntu-latest
-    needs: [format, lint, style-lint, build, test]
+    needs: test
     if: ${{ ! failure() }}
     steps:
       - name: check

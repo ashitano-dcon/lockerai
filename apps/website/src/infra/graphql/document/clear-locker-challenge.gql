@@ -1,0 +1,3 @@
+mutation ClearLockerChallenge($where: LockerWhereUniqueInput!) {
+  clearLockerChallenge(where: $where)
+}

@@ -1,5 +1,5 @@
 import NextLink, { type LinkProps as NextLinkProps } from 'next/link';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { type ComponentPropsWithoutRef, type ElementRef, type ReactNode, forwardRef } from 'react';
 
 type LinkProps<T> =
   | (ComponentPropsWithoutRef<typeof NextLink> & NextLinkProps<T>)
@@ -7,16 +7,26 @@ type LinkProps<T> =
       external: true;
     });
 
-export const Link = <T,>({ children, ...props }: LinkProps<T>): ReactNode => {
-  if ('external' in props) {
-    const { external, href, ...anchorProps } = props;
+const ExoticLink = forwardRef<ElementRef<JSX.IntrinsicElements['a'] & typeof NextLink>, LinkProps<unknown>>(
+  ({ children, ...props }, ref): ReactNode => {
+    if ('external' in props) {
+      const { external, href, ...anchorProps } = props;
+
+      return (
+        <a ref={ref} href={href?.toString()} target="_blank" rel="noopener noreferrer" {...anchorProps}>
+          {children}
+        </a>
+      );
+    }
 
     return (
-      <a href={href?.toString()} target="_blank" rel="noopener noreferrer" {...anchorProps}>
+      <NextLink ref={ref} {...props}>
         {children}
-      </a>
+      </NextLink>
     );
-  }
+  },
+);
 
-  return <NextLink {...props}>{children}</NextLink>;
-};
+ExoticLink.displayName = ExoticLink.name;
+
+export const Link = ExoticLink as <T>(props: LinkProps<T> & { ref?: ElementRef<JSX.IntrinsicElements['a'] & typeof NextLink> }) => ReactNode;

@@ -1,0 +1,6 @@
+fragment UserPublicMeta on User {
+  avatarUrl
+  id
+  isDiscloseAsOwner
+  name
+}

@@ -1,0 +1,12 @@
+mutation UpdateUserDisclosure($isDiscloseAsOwner: Boolean!, $where: UserWhereAuthIdInput!) {
+  updateUserDisclosure(isDiscloseAsOwner: $isDiscloseAsOwner, where: $where) {
+    authId
+    avatarUrl
+    createdAt
+    email
+    id
+    isDiscloseAsOwner
+    lostAndFoundState
+    name
+  }
+}

@@ -16,10 +16,10 @@ const meta = {
 export default meta;
 
 export const Default: Story = {
-  render: () => <BrandLogo aria-hidden className="h-14 w-auto" />,
+  render: ({ ...props }) => <BrandLogo {...props} className="h-14 w-auto" />,
 };
 
 export const WithAnimation: Story = {
   ...Default,
-  render: () => <BrandLogo aria-hidden withAnimate className="h-14 w-auto" />,
+  render: ({ ...props }) => <BrandLogo {...props} withAnimate className="h-14 w-auto" />,
 };

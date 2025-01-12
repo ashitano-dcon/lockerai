@@ -5,7 +5,7 @@ import type { User } from '#api/module/user/domain/user.model';
 // TODO: Once this issue is resolved, modify to use `import type` syntax.
 // https://github.com/typescript-eslint/typescript-eslint/issues/5468
 import { type UserUseCaseInterface } from '#api/module/user/use-case/user.use-case';
-import { UserWhereUniqueInput } from './dto/input/user-where-unique.input';
+import { UserWhereAuthIdInput } from './dto/input/user-where-auth-id.input';
 import { UserObject } from './dto/object/user.object';
 
 @Resolver()
@@ -19,12 +19,12 @@ export class UserQuery {
 
   @Query(() => UserObject, { nullable: true })
   async findUser(
-    @Args('where', { type: () => UserWhereUniqueInput }, ValidationPipe)
-    where: UserWhereUniqueInput,
+    @Args('where', { type: () => UserWhereAuthIdInput }, ValidationPipe)
+    where: UserWhereAuthIdInput,
   ): Promise<User | null> {
     this.logger.log(`${this.findUser.name} called`);
 
-    const foundUser = await this.userUseCase.findUser(where.userId);
+    const foundUser = await this.userUseCase.findUser(where.authId);
 
     return foundUser;
   }

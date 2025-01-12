@@ -72,7 +72,7 @@ jobs:
           workingDir: apps/catalog/
           buildScriptName: sb:build
 
-  app-test-check:
+  catalog-deploy-chromatic-check:
     runs-on: ubuntu-latest
     needs: deploy-chromatic
     if: ${{ ! failure() }}

@@ -35,10 +35,13 @@ const preview: Preview = {
         light: 'light',
         dark: 'dark',
       },
-      defaultTheme: defaultTheme,
+      defaultTheme,
     }),
   ],
   parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
     viewport: {
       viewports: INITIAL_VIEWPORTS,
     },

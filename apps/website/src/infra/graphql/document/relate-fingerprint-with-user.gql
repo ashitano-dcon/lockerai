@@ -1,0 +1,12 @@
+mutation RelateFingerprintWithUser($hashedFingerprintId: String!, $where: UserWhereAuthIdInput!) {
+  relateFingerprintWithUser(hashedFingerprintId: $hashedFingerprintId, where: $where) {
+    authId
+    avatarUrl
+    createdAt
+    email
+    id
+    isDiscloseAsOwner
+    lostAndFoundState
+    name
+  }
+}

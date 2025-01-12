@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { ApolloServerPluginUsageReporting } from '@apollo/server/plugin/usageReporting';
 import { ApolloDriver, type ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { createComplexityLimitRule } from 'graphql-validation-complexity';
@@ -26,6 +27,15 @@ const createDevelopmentConfig = (): ApolloDriverConfig => baseConfig;
 const createProductionConfig = (envService: EnvService): ApolloDriverConfig => ({
   ...baseConfig,
   apollo: envService.ApolloStudioConfig,
+  plugins: baseConfig.plugins && [
+    ...baseConfig.plugins,
+    ApolloServerPluginUsageReporting({
+      sendVariableValues: {
+        all: true,
+      },
+      sendUnexecutableOperationDocuments: true,
+    }),
+  ],
 });
 
 const createTestConfig = (): ApolloDriverConfig => baseConfig;

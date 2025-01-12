@@ -6,8 +6,7 @@
     "paths": {
       "~website/*": ["./*"],
       "#website/*": ["./src/*"],
-      "#core/*": ["../../packages/core/*"],
-      "#markdown/*": ["../../packages/markdown/*"]
+      "#core/*": ["../../packages/core/*"]
     }
   },
   "include": ["./src/**/*", "./*.*js", "./*.*ts", ".next/types/**/*.*ts", ".next/types/**/*.ts"],

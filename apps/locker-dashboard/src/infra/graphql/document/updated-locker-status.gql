@@ -1,0 +1,7 @@
+subscription UpdatedLockerStatus($where: LockerWhereUniqueInput!) {
+  updatedLockerStatus(where: $where) {
+    description
+    name
+    type
+  }
+}

@@ -1,22 +1,36 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { IsUUID } from 'class-validator';
+import { IsEmail, IsUUID, IsUrl, MaxLength } from 'class-validator';
 import { UserLostAndFoundStateEnum } from '#api/module/user/controller/dto/enum/user-lost-and-found-state.enum';
 import { User } from '#api/module/user/domain/user.model';
 
 @ObjectType(User.name)
-export class UserObject implements User {
+export class UserObject implements Omit<User, 'hashedFingerprintId' | 'isOnTheWay'> {
   @Field(() => ID, { nullable: false })
   @IsUUID()
   id!: string;
 
   @Field(() => ID, { nullable: false })
+  @IsUUID()
   authId!: string;
 
-  @Field(() => ID, { nullable: true })
-  fingerprintId!: string | null;
+  @Field(() => String, { nullable: false })
+  @MaxLength(64)
+  name!: string;
+
+  @Field(() => String, { nullable: false })
+  @IsEmail()
+  @MaxLength(320)
+  email!: string;
 
   @Field(() => UserLostAndFoundStateEnum, { nullable: false })
   lostAndFoundState!: UserLostAndFoundStateEnum;
+
+  @Field(() => String, { nullable: false })
+  @IsUrl()
+  avatarUrl!: string;
+
+  @Field(() => Boolean, { nullable: false })
+  isDiscloseAsOwner!: boolean;
 
   @Field(() => Date, { nullable: false })
   createdAt!: Date;

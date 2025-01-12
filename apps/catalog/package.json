@@ -1,7 +1,7 @@
 {
   "name": "@lockerai/catalog",
   "version": "0.1.0",
-  "repository": "https://github.com/dino3616/lockerai.git",
+  "repository": "https://github.com/nitic-pbl-p8/lockerai.git",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -32,18 +32,18 @@
     "@lockerai/prettier": "workspace:*",
     "@lockerai/stylelint": "workspace:*",
     "@lockerai/tsconfig": "workspace:*",
-    "@storybook/addon-a11y": "7.5.1",
-    "@storybook/addon-essentials": "7.5.1",
+    "@storybook/addon-a11y": "7.6.8",
+    "@storybook/addon-essentials": "7.6.8",
     "@storybook/addon-styling": "1.3.7",
-    "@storybook/addon-viewport": "7.5.1",
-    "@storybook/addons": "7.5.1",
-    "@storybook/nextjs": "7.5.1",
-    "@storybook/react": "7.5.1",
-    "@storybook/theming": "7.5.1",
-    "@types/react": "18.2.31",
-    "@types/react-dom": "18.2.14",
-    "chromatic": "7.4.0",
+    "@storybook/addon-viewport": "7.6.8",
+    "@storybook/addons": "7.6.8",
+    "@storybook/nextjs": "7.6.8",
+    "@storybook/react": "7.6.8",
+    "@storybook/theming": "7.6.8",
+    "@types/react": "18.2.47",
+    "@types/react-dom": "18.2.18",
+    "chromatic": "10.2.2",
     "eslint-config-lockerai-react": "workspace:*",
-    "storybook": "7.5.1"
+    "storybook": "7.6.8"
   }
 }

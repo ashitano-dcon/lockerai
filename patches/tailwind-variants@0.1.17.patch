@@ -1,0 +1,16 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index 42b58a5..24d7a0a 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -19,9 +19,9 @@ export type ClassProp<V extends unknown = ClassValue> =
+
+ type TVBaseName = "base";
+
+-type TVScreens = "initial" | TVGeneratedScreens;
++export type TVScreens = "initial" | TVGeneratedScreens;
+
+-type TVSlots = Record<string, ClassValue> | undefined;
++export type TVSlots = Record<string, ClassValue> | undefined;
+
+ /**
+  * ----------------------------------------------------------------------

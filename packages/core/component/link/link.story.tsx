@@ -18,7 +18,11 @@ const meta: Meta<typeof Link> = {
 export default meta;
 
 export const Default: Story = {
-  render: () => <Link href="/">Link</Link>,
+  render: ({ ...props }) => (
+    <Link {...props} href="/">
+      Link
+    </Link>
+  ),
 };
 
 export const External: Story = {

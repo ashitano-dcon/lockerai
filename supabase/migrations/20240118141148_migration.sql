@@ -1,0 +1,2 @@
+ALTER TABLE "public"."lost_items"
+ADD COLUMN "owned_at" TIMESTAMP WITHOUT TIME ZONE;

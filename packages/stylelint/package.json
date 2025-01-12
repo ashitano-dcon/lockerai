@@ -1,7 +1,7 @@
 {
   "name": "@lockerai/stylelint",
   "version": "0.1.0",
-  "repository": "https://github.com/dino3616/lockerai.git",
+  "repository": "https://github.com/nitic-pbl-p8/lockerai.git",
   "license": "MIT",
   "private": true,
   "main": "index.cjs",
@@ -16,8 +16,8 @@
     "@lockerai/prettier": "workspace:*",
     "eslint-config-lockerai-base": "workspace:*",
     "stylelint-config-prettier": "9.0.5",
-    "stylelint-config-recess-order": "4.3.0",
-    "stylelint-config-standard-scss": "11.0.0",
-    "stylelint-prettier": "4.0.2"
+    "stylelint-config-recess-order": "4.4.0",
+    "stylelint-config-standard-scss": "12.0.0",
+    "stylelint-prettier": "4.1.0"
   }
 }

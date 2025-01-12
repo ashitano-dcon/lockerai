@@ -6,6 +6,7 @@ import {
   type TVCompoundVariants,
   type TVDefaultVariants,
   type TVReturnType,
+  type TVScreens,
   type TVSlots,
   type TVVariants,
   type VariantProps,
@@ -13,7 +14,7 @@ import {
 } from 'tailwind-variants';
 import type { TVConfig } from 'tailwind-variants/dist/config.js';
 
-const tailwindMergeConfig: Partial<TailwindMergeConfig> = {};
+const tailwindMergeConfig: Partial<TailwindMergeConfig<string, string>> = {};
 
 const twMerge = extendTailwindMerge(tailwindMergeConfig);
 
@@ -24,7 +25,8 @@ const tvConfig = {
   // ref: https://github.com/nextui-org/tailwind-variants/issues/35#issuecomment-1515941234
   responsiveVariants: true,
   twMerge: true,
-  twMergeConfig: tailwindMergeConfig,
+  // HACK: tailwind-variants depends on an older version of tailwind-merge, so the type needs to be asserted.
+  twMergeConfig: tailwindMergeConfig as TVConfig['twMergeConfig'],
 } satisfies TVConfig;
 
 // NOTE: Redefine tv API independently to override tv API settings.
@@ -88,4 +90,4 @@ export const tv = <
   defaultVariants?: DV;
 }): TVReturnType<V, S, B, typeof tvConfig, EV, ES> => tvBase(options, tvConfig);
 
-export type { VariantProps };
+export type { VariantProps, TVScreens };

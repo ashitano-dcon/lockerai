@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@lockerai/tsconfig/tsconfig.nextjs.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "~locker-dashboard/*": ["./*"],
+      "#locker-dashboard/*": ["./src/*"],
+      "#core/*": ["../../packages/core/*"]
+    }
+  },
+  "include": ["./src/**/*", "./*.*js", "./*.*ts", ".next/types/**/*.*ts", ".next/types/**/*.ts"],
+  "exclude": ["**/node_modules/**/*"]
+}

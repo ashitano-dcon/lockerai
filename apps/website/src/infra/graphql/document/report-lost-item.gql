@@ -1,0 +1,15 @@
+mutation ReportLostItem($imageFiles: [Upload!]!, $lostItem: LostItemCreateInput!) {
+  reportLostItem(imageFiles: $imageFiles, lostItem: $lostItem) {
+    deliveredAt
+    description
+    id
+    imageUrls
+    ownedAt
+    reportedAt
+    reporter {
+      ...UserPublicMeta
+    }
+    retrievedAt
+    title
+  }
+}

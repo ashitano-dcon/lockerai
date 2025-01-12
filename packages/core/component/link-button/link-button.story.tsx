@@ -18,8 +18,9 @@ const meta: Meta<typeof LinkButton> = {
 export default meta;
 
 export const Default: Story = {
-  render: () => (
+  render: ({ ...props }) => (
     <LinkButton
+      {...props}
       href="/"
       variant={{
         border: true,

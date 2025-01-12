@@ -2,3 +2,4 @@ coverage/
 dist/
 generated/
 node_modules/
+src/infra/drizzle/migrations/meta/

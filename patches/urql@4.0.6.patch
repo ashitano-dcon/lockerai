@@ -1,0 +1,14 @@
+diff --git a/dist/urql.es.js b/dist/urql.es.js
+index 1d93f35..80ab09c 100644
+--- a/dist/urql.es.js
++++ b/dist/urql.es.js
+@@ -206,6 +206,9 @@ function useQuery(e) {
+     h([ v, y = computeNextState(p[1], f(v, n)), l ]);
+   }
+   r.useEffect((() => {
++    if(p[2][4]){
++      return;
++    }
+     var e = p[0];
+     var r = p[2][1];
+     var t = !1;

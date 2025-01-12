@@ -1,0 +1,15 @@
+query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
+  findSimilarLostItem(lostAt: $lostAt, userDescription: $userDescription) {
+    deliveredAt
+    description
+    id
+    imageUrls
+    ownedAt
+    reportedAt
+    reporter {
+      ...UserPublicMeta
+    }
+    retrievedAt
+    title
+  }
+}

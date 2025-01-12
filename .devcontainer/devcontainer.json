@@ -28,6 +28,8 @@
         "mikestead.dotenv",
         "ms-ossdata.vscode-postgresql",
         "orta.vscode-jest",
+        "prisma.prisma",
+        "Prettier-SQL.SQLFlavourOverride",
         "stylelint.vscode-stylelint",
         "usernamehw.errorlens",
         "vincaslt.highlight-matching-tag",

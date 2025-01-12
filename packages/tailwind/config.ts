@@ -4,13 +4,15 @@ import { withTV } from 'tailwind-variants/transformer';
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import type { KeyValuePair, PluginAPI, RecursiveKeyValuePair, ResolvableTo } from 'tailwindcss/types/config';
+import tailwindcssAnimatePlugin from 'tailwindcss-animate';
+import tailwindcssRadixPlugin from 'tailwindcss-radix';
 import { createThemes } from 'tw-colors';
 
 const flattenColorPalette = (colorPalette: ResolvableTo<RecursiveKeyValuePair<string, string>>): KeyValuePair<string, string> =>
   Object.assign(
     {},
     ...Object.entries(colorPalette ?? {}).flatMap(([color, values]) =>
-      typeof values == 'object'
+      typeof values === 'object'
         ? Object.entries(flattenColorPalette(values)).map(([number, hex]) => ({
             [color + (number === 'DEFAULT' ? '' : `-${number}`)]: hex,
           }))
@@ -35,6 +37,7 @@ const defaultConfig: Config = {
       'display-black': '900',
     },
     keyframes: {
+      ...defaultTheme.keyframes,
       'translate-x-full': {
         '100%': {
           transform: 'translateX(100%)',
@@ -65,7 +68,14 @@ const defaultConfig: Config = {
         { values: flattenColorPalette(theme('backgroundColor')), type: 'color' },
       );
     },
-    require('tailwindcss-animate'),
+    tailwindcssAnimatePlugin,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // NOTE: Need to disable type checking because of this totally incorrect type.
+    // ref: https://github.com/ecklf/tailwindcss-radix/issues/48
+    tailwindcssRadixPlugin({
+      variantPrefix: 'rdx',
+    }),
   ],
 };
 
