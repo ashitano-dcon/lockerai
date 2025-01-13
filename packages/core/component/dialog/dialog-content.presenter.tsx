@@ -36,8 +36,8 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
         )}
         {...props}
       >
-        <div className="overflow-y-auto">
-          <div className="flex flex-col items-center justify-center gap-6 p-10">{children}</div>
+        <div className="w-full overflow-y-auto">
+          <div className="flex w-full flex-col items-center justify-center gap-6 p-10">{children}</div>
         </div>
         <DialogPrimitive.Close className="absolute right-6 top-6 rounded-full p-2 transition hover:bg-sage-4">
           <CrossIcon className="h-6 w-6 fill-sage-12" />
