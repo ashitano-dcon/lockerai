@@ -7,6 +7,7 @@ import type { User } from '#website/common/model/user';
 import { HeaderLink } from './component/header-link';
 import { SignInButton } from './component/sign-in-button';
 import { UserDropdownMenu } from './component/user-dropdown-menu';
+import { UserQrcodeDialog } from './component/user-qrcode-dialog';
 
 export type InAppHeaderRouteIndicatorDividerProps = ComponentPropsWithoutRef<'svg'>;
 
@@ -66,7 +67,16 @@ export const InAppHeader = ({ user, children, ...props }: InAppHeaderProps): Rea
         </Link>
         {children}
       </div>
-      <div className="flex shrink-0 grow-0 items-center gap-6 justify-self-end">{user ? <UserDropdownMenu user={user} /> : <SignInButton />}</div>
+      <div className="flex shrink-0 grow-0 items-center gap-6 justify-self-end">
+        {user ? (
+          <>
+            <UserQrcodeDialog user={user} />
+            <UserDropdownMenu user={user} />
+          </>
+        ) : (
+          <SignInButton />
+        )}
+      </div>
     </div>
     <nav className="flex w-full flex-row gap-1 px-6 tablet:w-fit desktop:px-16">
       <HeaderLink href="/dashboard" className="max-w-40 grow tablet:grow-0">

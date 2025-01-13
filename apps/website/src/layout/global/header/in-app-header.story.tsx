@@ -62,3 +62,18 @@ export const WithRouteIndicator: Story = {
     ),
   },
 };
+
+export const SignedIn: Story = {
+  args: {
+    user: {
+      id: 'exampleuserid',
+      authId: 'exampleauthid',
+      email: 'a@example.com',
+      name: 'John Smith',
+      avatarUrl: 'https://avatars.githubusercontent.com/u/97165289',
+      isDiscloseAsOwner: false,
+      lostAndFoundState: 'NONE',
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+    },
+  },
+};
