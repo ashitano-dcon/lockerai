@@ -10,6 +10,11 @@ datasource db {
   extensions = [pgvector(map: "vector", schema: "public")]
 }
 
+enum UserRole {
+  USER
+  OCCUPIER
+}
+
 enum LostAndFoundState {
   NONE
   DELIVERING
@@ -22,6 +27,7 @@ model User {
   hashedFingerprintId String?           @unique @map("hashed_fingerprint_id") @db.Char(64)
   name                String            @map("name") @db.VarChar(64)
   email               String            @map("email") @db.VarChar(320)
+  role                UserRole          @default(USER)
   lostAndFoundState   LostAndFoundState @default(NONE) @map("lost_and_found_state")
   avatarUrl           String            @map("avatar_url")
 
