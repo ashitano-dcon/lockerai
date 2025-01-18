@@ -65,7 +65,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: generate graphql schema
-        run: timeout 15 pnpm api dev
+        run: pnpm api generate && timeout 15 pnpm api dev
         continue-on-error: true
 
       - name: publish graphs

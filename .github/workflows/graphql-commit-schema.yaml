@@ -69,7 +69,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: generate and update graphql schema
-        run: seq 2 | timeout 30 xargs -P 2 -I {} sh .github/workflows/script/graphql-commit-schema.sh {}
+        run: pnpm api generate && seq 2 | timeout 30 xargs -P 2 -I {} sh .github/workflows/script/graphql-commit-schema.sh {}
         continue-on-error: true
 
       - name: commit graphql schema update
