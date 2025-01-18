@@ -12,6 +12,15 @@ export class LockerObject implements Locker {
   @MaxLength(32)
   name!: string;
 
+  @Field(() => Number, { nullable: false })
+  lat!: number;
+
+  @Field(() => Number, { nullable: false })
+  lng!: number;
+
+  @Field(() => String, { nullable: false })
+  location!: string;
+
   @Field(() => Date, { nullable: false })
   createdAt!: Date;
 }
