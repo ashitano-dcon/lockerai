@@ -79,8 +79,11 @@ model Drawer {
 }
 
 model Locker {
-  id   String @id @default(uuid()) @db.Uuid
-  name String @unique @map("name") @db.VarChar(32)
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String  @unique @map("name") @db.VarChar(32)
+  lat      Float?  @map("lat")
+  lng      Float?  @map("lng")
+  location String? @map("location")
 
   Drawer Drawer[]
 
