@@ -4,7 +4,7 @@ import type { User } from '#api/module/user/domain/user.model';
 
 @InputType()
 export class UserCreateInput
-  implements Omit<User, 'id' | 'hashedFingerprintId' | 'lostAndFoundState' | 'isDiscloseAsOwner' | 'createdAt' | 'isOnTheWay'>
+  implements Omit<User, 'id' | 'hashedFingerprintId' | 'role' | 'lostAndFoundState' | 'isDiscloseAsOwner' | 'createdAt' | 'isOnTheWay'>
 {
   @Field(() => String, { nullable: false })
   @IsUUID()

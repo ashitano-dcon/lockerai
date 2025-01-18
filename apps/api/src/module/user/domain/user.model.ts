@@ -1,3 +1,5 @@
+type UserRole = 'USER' | 'OCCUPIER';
+
 type UserLostAndFoundState = 'NONE' | 'DELIVERING' | 'RETRIEVING';
 
 export class User {
@@ -10,6 +12,8 @@ export class User {
   readonly name: string;
 
   readonly email: string;
+
+  readonly role: UserRole;
 
   readonly lostAndFoundState: UserLostAndFoundState;
 
@@ -25,6 +29,7 @@ export class User {
     hashedFingerprintId,
     name,
     email,
+    role,
     lostAndFoundState,
     avatarUrl,
     isDiscloseAsOwner,
@@ -35,6 +40,7 @@ export class User {
     this.hashedFingerprintId = hashedFingerprintId;
     this.name = name;
     this.email = email;
+    this.role = role;
     this.lostAndFoundState = lostAndFoundState;
     this.avatarUrl = avatarUrl;
     this.isDiscloseAsOwner = isDiscloseAsOwner;
