@@ -7,6 +7,10 @@ on:
 
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
+  IDENTIFICATION_NN_ENDPOINT: ${{ secrets.IDENTIFICATION_NN_ENDPOINT }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
