@@ -32,7 +32,8 @@ catalog:
 db:
   - .github/filter.yaml
   - .github/workflows/db-*.yaml
-  - apps/api/src/infra/drizzle/schema/**/*.ts
+  - apps/api/src/infra/prisma/**/*
+  - supabase/**/*
 
 graphql:
   - .github/filter.yaml
