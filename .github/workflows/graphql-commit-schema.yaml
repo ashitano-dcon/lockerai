@@ -4,6 +4,10 @@ on: push
 
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
+  IDENTIFICATION_NN_ENDPOINT: ${{ secrets.IDENTIFICATION_NN_ENDPOINT }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
@@ -33,6 +37,13 @@ jobs:
 
   commit:
     runs-on: ubuntu-latest
+    env:
+      APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID }}
+      SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET }}
+      SUPABASE_AUTH_EXTERNAL_GOOGLE_URL: ${{ secrets.SUPABASE_AUTH_EXTERNAL_GOOGLE_URL }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
     needs: filter
     if: needs.filter.outputs.graphql == 'true'
     steps:
@@ -42,6 +53,11 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_sha }}
           token: ${{ secrets.PAT }}
+
+      - name: setup supabase cli
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
 
       - name: setup node
         uses: actions/setup-node@v3
@@ -67,6 +83,12 @@ jobs:
 
       - name: install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: authenticate to supabase
+        run: pnpm supabase link --project-ref ${{ secrets.SUPABASE_REFERENCE_ID }}
+
+      - name: start supabase
+        run: pnpm supabase start
 
       - name: generate and update graphql schema
         run: pnpm api generate && seq 2 | timeout 30 xargs -P 2 -I {} sh .github/workflows/script/graphql-commit-schema.sh {}
