@@ -7,6 +7,12 @@ type SimilarItem = {
   dateDifference: number;
 };
 
+type ItemWithRates = {
+  key: string;
+  approveRate: number;
+  rejectRate: number;
+};
+
 @Injectable()
 export class IdentificationNnService {
   private readonly url: string;
@@ -19,7 +25,7 @@ export class IdentificationNnService {
     this.logger.debug(`${IdentificationNnService.name} constructed`);
   }
 
-  async identify(similarItems: SimilarItem[]): Promise<string | null> {
+  async identify(similarItems: SimilarItem[]): Promise<ItemWithRates[]> {
     type Request = {
       similarity: number;
       date_difference: number;
@@ -31,8 +37,10 @@ export class IdentificationNnService {
       error?: string;
     };
 
+    this.logger.debug('similarItems', similarItems);
+
     const identities = await Promise.all(
-      similarItems.map(async (similarItem): Promise<[string, [number, number]]> => {
+      similarItems.map(async (similarItem): Promise<ItemWithRates> => {
         const response = await fetch(this.url, {
           method: 'POST',
           headers: {
@@ -44,22 +52,23 @@ export class IdentificationNnService {
           } satisfies Request),
         });
 
+        this.logger.debug('IdentificationNN API response status', { status: response.status, statusText: response.statusText });
+
         const { data: identity, error } = (await response.json()) as Response;
         if (error) {
           throw new Error(String(error));
         }
 
-        return [similarItem.key, identity];
+        return {
+          key: similarItem.key,
+          approveRate: identity[0],
+          rejectRate: identity[1],
+        };
       }),
     );
 
-    const mostIdenticalIdentity = identities.reduce((prev, current) => (current[1][0] > prev[1][0] ? current : prev));
-    if (mostIdenticalIdentity[1][0] <= 0) {
-      return null;
-    }
+    this.logger.debug('identities', identities);
 
-    const mostIdenticalKey = mostIdenticalIdentity[0];
-
-    return mostIdenticalKey;
+    return identities;
   }
 }

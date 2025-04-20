@@ -4,6 +4,7 @@ import { DrawerModule } from '#api/module/drawer/drawer.module';
 import { UserModule } from '#api/module/user/user.module';
 import { LostItemMutation } from './controller/lost-item-mutation.resolver';
 import { LostItemQuery } from './controller/lost-item-query.resolver';
+import { LostItemWithRatesResolver } from './controller/lost-item-with-rates.resolver';
 import { LostItemResolver } from './controller/lost-item.resolver';
 import { LostItemRepository } from './repository/impl/lost-item.repository';
 import { LostItemUseCase } from './use-case/impl/lost-item.use-case';
@@ -14,6 +15,7 @@ import { LostItemUseCase } from './use-case/impl/lost-item.use-case';
     { provide: InjectionToken.LOST_ITEM_REPOSITORY, useClass: LostItemRepository },
     { provide: InjectionToken.LOST_ITEM_USE_CASE, useClass: LostItemUseCase },
     LostItemResolver,
+    LostItemWithRatesResolver,
     LostItemQuery,
     LostItemMutation,
   ],
