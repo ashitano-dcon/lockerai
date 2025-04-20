@@ -37,15 +37,17 @@
     "dotenv": "16.3.1",
     "framer-motion": "10.18.0",
     "graphql-tag": "2.12.6",
+    "marked": "15.0.8",
     "next": "14.0.4",
     "qrcode.react": "3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.49.3",
+    "react-markdown": "10.1.0",
     "schema-dts": "1.1.2",
     "sharp": "0.33.1",
     "ts-pattern": "5.0.6",
-    "zod": "3.22.4"
+    "zod": "3.24.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.0",
