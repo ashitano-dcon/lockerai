@@ -26,7 +26,7 @@ export const UserActionStatusList = ({ user, reporter, owner, lostItem, ...props
           height={36}
           priority
           skeleton={{
-            className: 'rounded-full',
+            className: 'rounded-full shrink-0 aspect-square',
           }}
           className="h-9 w-9"
         />
