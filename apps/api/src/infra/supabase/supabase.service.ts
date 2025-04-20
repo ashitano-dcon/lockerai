@@ -33,7 +33,7 @@ export class SupabaseService {
         return this.client.storage.from('lost-item').upload(path, file.createReadStream(), {
           duplex: 'half',
           upsert: true,
-          contentType: file.mimetype === 'application/octet-stream' ? `image/${ext === 'jpg' ? 'jpeg' : ext}` ?? file.mimetype : file.mimetype,
+          contentType: ext ? `image/${ext === 'jpg' ? 'jpeg' : ext}` : file.mimetype,
         });
       }),
     );
@@ -45,5 +45,25 @@ export class SupabaseService {
     const uploadedUrls = uploadedPaths.map((path) => this.client.storage.from('lost-item').getPublicUrl(path).data.publicUrl);
 
     return uploadedUrls;
+  }
+
+  async downloadFile(path: string): Promise<{ data: Buffer; mimetype: string } | null> {
+    const { data, error } = await this.client.storage.from('lost-item').download(path);
+    if (error) {
+      this.logger.error(`Failed to download file from Supabase: ${error.message}`);
+      return null;
+    }
+    if (!data) {
+      return null;
+    }
+
+    const buffer = Buffer.from(await data.arrayBuffer());
+    const mimetype = data.type;
+
+    return { data: buffer, mimetype };
+  }
+
+  getPublicUrl(path: string): string {
+    return this.client.storage.from('lost-item').getPublicUrl(path).data.publicUrl;
   }
 }
