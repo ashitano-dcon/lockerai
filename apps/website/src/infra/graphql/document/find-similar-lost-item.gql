@@ -11,5 +11,7 @@ query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
     }
     retrievedAt
     title
+    approveRate
+    rejectRate
   }
 }

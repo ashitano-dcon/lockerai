@@ -29,4 +29,10 @@ export class LostItemObject implements Omit<LostItem, 'drawerId' | 'reporterId' 
 
   @Field(() => Date, { nullable: true })
   retrievedAt!: Date | null;
+
+  // これらのフィールドは内部的に使用され、GraphQL経由では公開されないが、
+  // リゾルバーでreporterとownerを解決するのに必要
+  reporterId!: string;
+
+  ownerId!: string | null;
 }

@@ -11,7 +11,9 @@ import { urqlClient } from '#website/infra/urql';
 
 type FindSimilarLostItemUseCaseOutput = {
   lostItem: LostItem;
-  reporter: UserPublicMeta;
+  reporter: UserPublicMeta | null;
+  approveRate: number;
+  rejectRate: number;
 };
 
 type FindSimilarLostItemUseCase = (description: string, lostAt: Date) => Promise<FindSimilarLostItemUseCaseOutput | null>;
@@ -46,15 +48,19 @@ export const findSimilarLostItemUseCase: FindSimilarLostItemUseCase = async (des
     retrievedAt: data.findSimilarLostItem.retrievedAt ? data.findSimilarLostItem.retrievedAt : null,
   };
 
-  const reporter: UserPublicMeta = {
-    id: data.findSimilarLostItem.reporter.id,
-    name: data.findSimilarLostItem.reporter.name,
-    avatarUrl: data.findSimilarLostItem.reporter.avatarUrl,
-    isDiscloseAsOwner: data.findSimilarLostItem.reporter.isDiscloseAsOwner,
-  };
+  const reporter = data.findSimilarLostItem.reporter
+    ? {
+        id: data.findSimilarLostItem.reporter.id,
+        name: data.findSimilarLostItem.reporter.name,
+        avatarUrl: data.findSimilarLostItem.reporter.avatarUrl,
+        isDiscloseAsOwner: data.findSimilarLostItem.reporter.isDiscloseAsOwner,
+      }
+    : null;
 
   return {
     lostItem,
     reporter,
+    approveRate: data.findSimilarLostItem.approveRate,
+    rejectRate: data.findSimilarLostItem.rejectRate,
   };
 };

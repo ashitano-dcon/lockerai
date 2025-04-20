@@ -12,7 +12,7 @@ type UserQrcodeDialogProps = Omit<ComponentPropsWithoutRef<'button'>, 'children'
 
 export const UserQrcodeDialog = ({ user, ...props }: UserQrcodeDialogProps): ReactNode => (
   <Dialog>
-    <DialogTrigger>
+    <DialogTrigger asChild>
       <Button
         variant={{
           border: true,

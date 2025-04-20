@@ -4,7 +4,8 @@ import { InjectionToken } from '#api/common/constant/injection-token';
 import { IdentificationNnService } from '#api/infra/identification-nn/identification-nn.service';
 import { LangchainService } from '#api/infra/langchain/langchain.service';
 import { SupabaseService } from '#api/infra/supabase/supabase.service';
-import type { LostItem } from '#api/module/lost-item/domain/lost-item.model';
+import { LostItemWithRates } from '#api/module/lost-item/domain/lost-item-with-rates.model';
+import { type LostItem } from '#api/module/lost-item/domain/lost-item.model';
 // TODO: Once this issue is resolved, modify to use `import type` syntax.
 // https://github.com/typescript-eslint/typescript-eslint/issues/5468
 import { type LostItemRepositoryInterface } from '#api/module/lost-item/repository/lost-item.repository';
@@ -36,14 +37,34 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
     }
 
     const lostItemId = uuid();
-    const imageUrls = await this.supabaseService.uploadFiles(
-      imageFiles.map((file, index) => [`${lostItemId}/${index}-${file.filename.replace(/\.jpg$/, '.jpeg')}`, file]),
+    // 1. パスを先に決定 (アップロードとパス生成を同時に行う)
+    const uploadPromises = imageFiles.map(async (file, index) => {
+      const path = `${lostItemId}/${index}-${file.filename.replace(/\.jpg$/, '.jpeg')}`;
+      await this.supabaseService.uploadFiles([[path, file]]);
+      return path; // 成功したらパスを返す
+    });
+    const filePaths = await Promise.all(uploadPromises);
+
+    // 2. アップロードしたファイルをダウンロードして Base64 データ URL に変換
+    const imageDataUrls = await Promise.all(
+      filePaths.map(async (path) => {
+        const fileData = await this.supabaseService.downloadFile(path);
+        if (!fileData) {
+          throw new Error(`Failed to download uploaded file: ${path}`);
+        }
+        const base64 = fileData.data.toString('base64');
+        return `data:${fileData.mimetype};base64,${base64}`;
+      }),
     );
 
-    const lostItemDescription = await this.langchainService.imageCaptioning(imageUrls);
+    // 4. Base64 データ URL を Langchain に渡す
+    const lostItemDescription = await this.langchainService.imageCaptioning(imageDataUrls);
     if ('error' in lostItemDescription) {
       throw new Error(lostItemDescription.error);
     }
+
+    // 5. DB 保存用に公開 URL を取得
+    const imageUrlsForDb = filePaths.map((path) => this.supabaseService.getPublicUrl(path));
 
     const embeddedDescription = await this.langchainService.embedding(lostItemDescription.description);
 
@@ -53,7 +74,7 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
         id: lostItemId,
         title: lostItemDescription.title,
         description: lostItemDescription.description,
-        imageUrls,
+        imageUrls: imageUrlsForDb, // DB には公開 URL を保存
         drawerId: null,
         ownerId: null,
         ownedAt: null,
@@ -71,7 +92,7 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
   async findSimilarLostItem(
     userDescription: Parameters<LostItemUseCaseInterface['findSimilarLostItem']>[0],
     lostAt: Parameters<LostItemUseCaseInterface['findSimilarLostItem']>[1],
-  ): Promise<LostItem | null> {
+  ): Promise<LostItemWithRates | null> {
     const translatedUserDescription = await this.langchainService.translateFromAnyToEnglish(userDescription);
     if ('error' in translatedUserDescription) {
       throw new Error(translatedUserDescription.error);
@@ -83,7 +104,7 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
       return null;
     }
 
-    const similarLostItemId = await this.identificationNnService.identify(
+    const itemsWithRates = await this.identificationNnService.identify(
       similarLostItems.map(([lostItem, similarity]) => ({
         key: lostItem.id,
         similarity,
@@ -91,9 +112,29 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
       })),
     );
 
-    const similarLostItem = similarLostItemId ? similarLostItems.find(([lostItem]) => lostItem.id === similarLostItemId)?.[0] ?? null : null;
+    if (!itemsWithRates || itemsWithRates.length === 0) {
+      return null;
+    }
 
-    return similarLostItem;
+    // 最も高い確率を持つアイテムを見つける
+    const bestMatch = itemsWithRates.reduce<{ key: string; approveRate: number; rejectRate: number }>(
+      (prev, current) => (current.approveRate > prev.approveRate ? current : prev),
+      itemsWithRates[0]!,
+    );
+
+    // マッチした確率が0.5以下ならnullを返す
+    if (bestMatch.approveRate <= 0) {
+      return null;
+    }
+
+    // そのIDに対応するLostItemを探す
+    const matchedLostItem = similarLostItems.find(([lostItem]) => lostItem.id === bestMatch.key)?.[0] ?? null;
+
+    if (!matchedLostItem) {
+      return null;
+    }
+
+    return new LostItemWithRates(matchedLostItem, bestMatch.approveRate, bestMatch.rejectRate);
   }
 
   async ownLostItem(

@@ -20,6 +20,12 @@ module.exports = {
       },
     },
     {
+      files: ["./src/common/**"],
+      rules: {
+        "react/prop-types": "off",
+      },
+    },
+    {
       files: ["./src/app/**/json-ld.ts"],
       rules: {
         "import/no-default-export": "off",
