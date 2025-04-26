@@ -1,11 +1,11 @@
 ARG PORT
-ARG NODE_VERSION=18
+ARG NODE_VERSION=20
 ARG TURBO_TEAM
 ARG TURBO_TOKEN
 
 FROM alpine:3 as alpine
 
-FROM node:${NODE_VERSION}-slim AS builder
+FROM node:${NODE_VERSION} AS builder
 ENV TURBO_TEAM=${TURBO_TEAM}
 ENV TURBO_TOKEN=${TURBO_TOKEN}
 
@@ -23,7 +23,7 @@ RUN pnpm install --frozen-lockfile
 # hadolint ignore=DL3059
 RUN pnpm turbo --filter='@lockerai/api' build
 
-FROM gcr.io/distroless/nodejs:${NODE_VERSION} AS runner
+FROM gcr.io/distroless/nodejs${NODE_VERSION} AS runner
 ENV NODE_ENV=production
 
 WORKDIR /lockerai/
