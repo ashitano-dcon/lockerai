@@ -5,6 +5,13 @@ import { SupabaseService } from '#api/infra/supabase/supabase.service';
 export class AuthGuard implements CanActivate {
   constructor(private readonly supabaseService: SupabaseService) {}
 
+  /**
+   * This guard enforces authentication by requiring a valid 'authorization' header.
+   * The removal of the environment check bypass means authentication is now enforced
+   * even in development environments. This change is intentional and might lead to
+   * HTTP 500 errors on /callback if not handled properly.
+   */
+
   async canActivate(context: ExecutionContext) {
     let accessToken: string | undefined;
     context.getArgs().forEach((arg) => {
