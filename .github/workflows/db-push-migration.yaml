@@ -56,27 +56,27 @@ jobs:
         with:
           version: latest
 
-      - name: setup node
-        uses: actions/setup-node@v3
+      - name: setup node and pnpm
+        uses: moonrepo/setup-toolchain@v0
         with:
-          node-version-file: "package.json"
+          # A GitHub action that sets up an environment for proto and moon.
+          # - Installs proto globally so that installed tools can also be executed globally.
+          # - Caches the toolchain (~/.proto) so subsequent runs are faster.
+          # - Hashes .prototools and .moon/toolchain.yml files to generate a unique cache key.
+          # - Cleans the toolchain before caching to remove unused or stale tools.
+          # See: https://github.com/moonrepo/setup-toolchain
+          auto-install: true
 
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        id: pnpm-install
-        with:
-          run_install: false
-
-      - name: setup pnpm environment variable
-        id: pnpm-env
+      - name: get pnpm store
+        id: pnpm-cache
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: cache pnpm dependencies
-        uses: actions/cache@v3
+      - uses: actions/cache@v4
+        name: setup pnpm cache
         with:
-          path: ${{ steps.pnpm-env.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-dependencies-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-dependencies-
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
 
       - name: install dependencies
         run: pnpm install --frozen-lockfile

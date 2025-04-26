@@ -5,14 +5,10 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=18.0.0 <19",
-    "pnpm": ">=8.0.0"
+    "node": ">=20.0.0 <21",
+    "pnpm": ">=10.0.0"
   },
-  "packageManager": "pnpm@9.1.1",
-  "volta": {
-    "node": "18.18.2",
-    "pnpm": "9.1.1"
-  },
+  "packageManager": "pnpm@10.9.0",
   "scripts": {
     "prepare": "husky install",
     "all": "pnpm --filter @lockerai/*",
@@ -46,6 +42,9 @@
     },
     "patchedDependencies": {
       "tailwind-variants@0.1.17": "patches/tailwind-variants@0.1.17.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@nestjs/core"
+    ]
   }
 }
