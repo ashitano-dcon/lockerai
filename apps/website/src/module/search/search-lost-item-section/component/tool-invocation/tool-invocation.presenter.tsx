@@ -75,7 +75,7 @@ export const ToolInvocation = <T extends ToolName>({ toolInvocation, onClaim }: 
         if (!lostItem) {
           return (
             <div className="my-2 flex w-full flex-col items-center gap-4 rounded-xl bg-sage-3 p-2 text-sm italic text-sage-11">
-              No items similar to &quot;{args.description}&quot; lost around {args.date} were found.
+              No items similar to &quot;{args.description}&quot; lost around {args.date} were found. {result.message}
             </div>
           );
         }

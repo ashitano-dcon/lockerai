@@ -24,7 +24,7 @@ type SearchLostItemChatProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'>
 };
 
 export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }: SearchLostItemChatProps) => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const { status, messages, input, handleInputChange, handleSubmit } = useChat({
     maxSteps: 5,
     api: '/api/chat',
     // @ts-expect-error ToolNameはstringよりも狭いから型エラーになってしまう
@@ -48,31 +48,37 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
       }
 
       if (typedToolCall.toolName === 'searchLostItem') {
-        const parseResult = searchLostItemSchema.safeParse(typedToolCall.args);
-
-        if (!parseResult.success) {
-          return `Error: Invalid arguments received for searchLostItem tool. ${parseResult.error.message}`;
-        }
-        const { description, date: dateString } = parseResult.data;
         try {
+          const parseResult = searchLostItemSchema.parse(typedToolCall.args);
+          const { description, date: dateString } = parseResult;
           const lostAt = new Date(dateString);
           if (Number.isNaN(lostAt.getTime())) {
-            return `Error: Invalid date format provided: ${dateString}`;
+            throw new Error(`Invalid date format provided: ${dateString}`);
           }
-          const apiResult = await findSimilarLostItemUseCase(description, lostAt);
+          const result = await findSimilarLostItemUseCase(description, lostAt);
+          if (!result) {
+            throw new Error('No similar lost item were found in the database.');
+          }
           // 修正: returnを削除し、elseを削除
-          if (apiResult) {
-            onSimilarLostItemFound?.(apiResult.lostItem, apiResult.reporter);
+          if (result) {
+            onSimilarLostItemFound?.(result.lostItem, result.reporter);
             return {
-              lostItem: apiResult.lostItem,
-              reporter: apiResult.reporter,
-              approveRate: apiResult.approveRate,
-              rejectRate: apiResult.rejectRate,
-              isAcceptable: apiResult.rejectRate < 0.4, // isAcceptableの条件を修正
+              lostItem: result.lostItem,
+              reporter: result.reporter,
+              approveRate: result.approveRate,
+              rejectRate: result.rejectRate,
+              isAcceptable: result.rejectRate < 0.4, // isAcceptableの条件を修正
             } satisfies ToolResult<'searchLostItem'>;
           }
         } catch (error) {
-          return error;
+          return {
+            message: String(error),
+            isAcceptable: false,
+            approveRate: 0,
+            rejectRate: 1,
+            lostItem: null,
+            reporter: null,
+          } satisfies ToolResult<'searchLostItem'>;
         }
       }
       return null;
@@ -88,9 +94,10 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
         className="sticky bottom-4 w-full rounded-[20px] bg-gradient-to-b from-green-6 to-green-7 p-2 shadow-xl shadow-sage-9/10"
       >
         <input
-          className="w-full rounded-xl border border-green-6 bg-sage-1 px-4 py-3 text-green-12 focus:outline-green-9"
+          className="w-full rounded-xl border border-green-6 bg-sage-1 px-4 py-3 text-green-12 focus:outline-green-9 disabled:bg-sage-3 disabled:text-sage-11"
           value={input}
-          placeholder="遺失物の特徴や状況を入力してください..."
+          disabled={status !== 'ready'}
+          placeholder={status === 'ready' ? 'Describe your lost item or situation...' : 'Waiting for response...'}
           onChange={handleInputChange}
         />
       </form>

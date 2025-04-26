@@ -17,6 +17,7 @@ export const tools = {
       date: z.string().describe('The date the item was lost. (e.g., YYYY-MM-DD)'), // 日付形式の例を追記
     }),
     result: z.object({
+      message: z.string().optional().describe('The message to the chat ai.'),
       lostItem: z
         .object({
           id: z.string(),
