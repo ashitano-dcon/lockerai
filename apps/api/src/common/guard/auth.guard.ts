@@ -1,19 +1,18 @@
 import { type CanActivate, type ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { EnvService } from '#api/common/service/env/env.service';
 import { SupabaseService } from '#api/infra/supabase/supabase.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(
-    private readonly supabaseService: SupabaseService,
-    private readonly envService: EnvService,
-  ) {}
+  constructor(private readonly supabaseService: SupabaseService) {}
+
+  /**
+   * This guard enforces authentication by requiring a valid 'authorization' header.
+   * The removal of the environment check bypass means authentication is now enforced
+   * even in development environments. This change is intentional and might lead to
+   * HTTP 500 errors on /callback if not handled properly.
+   */
 
   async canActivate(context: ExecutionContext) {
-    if (this.envService.NodeEnv === 'development') {
-      return true;
-    }
-
     let accessToken: string | undefined;
     context.getArgs().forEach((arg) => {
       if (arg && arg.req && arg.req.headers) {
