@@ -28,9 +28,13 @@ const { getClient } = registerUrql(
     const {
       data: { session },
     } = await supabase.auth.refreshSession();
+
     if (!session) {
-      supabase.auth.signOut();
+      await supabase.auth.signOut();
+      return null;
     }
+
+    return [session.access_token, session.expires_at];
   },
 );
 
