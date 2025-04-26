@@ -10,7 +10,7 @@ export const createUrqlClient = (
   graphqlUrl: string,
   wsUrl: string,
   getSession: () => Promise<[string, number | undefined] | null>,
-  refreshSession: () => Promise<void>,
+  refreshSession: () => Promise<[string, number | undefined] | null>,
 ) => {
   const ssr = ssrExchange();
 
