@@ -12,9 +12,15 @@ type VerifyUserExistenceUseCaseOutput = {
 type VerifyUserExistenceUseCase = (authId: string) => Promise<VerifyUserExistenceUseCaseOutput>;
 
 export const verifyUserExistenceUseCase: VerifyUserExistenceUseCase = async (authId) => {
-  const { data, error } = await urqlClient.query<VerifyUserExistenceQuery, VerifyUserExistenceQueryVariables>(VerifyUserExistenceDocument, {
-    where: { authId },
-  });
+  const { data, error } = await urqlClient.query<VerifyUserExistenceQuery, VerifyUserExistenceQueryVariables>(
+    VerifyUserExistenceDocument,
+    {
+      where: { authId },
+    },
+    {
+      requestPolicy: 'network-only',
+    },
+  );
   if (error) {
     throw error;
   }
