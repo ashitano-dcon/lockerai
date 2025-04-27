@@ -33,7 +33,7 @@ const getApiWsBaseUrl = (): URL => {
 const getWebsiteBaseUrl = (): URL => {
   let baseUrl: URL;
   if (process.env['NODE_ENV'] === 'production') {
-    baseUrl = new URL('https://lockerai.vercel.app');
+    baseUrl = new URL('https://www.lockerai.app');
   } else if (process.env['VERCEL_URL']) {
     baseUrl = new URL(`https://${process.env['VERCEL_URL']}`);
   } else if (process.env['NEXT_PUBLIC_VERCEL_URL']) {
