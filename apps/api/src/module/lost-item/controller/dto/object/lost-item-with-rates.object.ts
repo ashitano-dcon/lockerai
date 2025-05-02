@@ -8,4 +8,7 @@ export class LostItemWithRatesObject extends LostItemObject {
 
   @Field(() => Number, { nullable: false })
   rejectRate!: number;
+
+  // internal use: nested drawer resolver needs drawerId
+  drawerId!: number | null;
 }

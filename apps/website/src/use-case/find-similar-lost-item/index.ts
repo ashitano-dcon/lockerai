@@ -46,6 +46,7 @@ export const findSimilarLostItemUseCase: FindSimilarLostItemUseCase = async (des
     deliveredAt: data.findSimilarLostItem.deliveredAt ? data.findSimilarLostItem.deliveredAt : null,
     ownedAt: data.findSimilarLostItem.ownedAt ? data.findSimilarLostItem.ownedAt : null,
     retrievedAt: data.findSimilarLostItem.retrievedAt ? data.findSimilarLostItem.retrievedAt : null,
+    drawer: data.findSimilarLostItem.drawer,
   };
 
   const reporter = data.findSimilarLostItem.reporter

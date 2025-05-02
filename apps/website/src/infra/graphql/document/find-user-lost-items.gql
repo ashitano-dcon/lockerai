@@ -16,6 +16,14 @@ query FindUserLostItems($where: UserWhereAuthIdInput!) {
       }
       retrievedAt
       title
+      drawer {
+        id
+        locker {
+          lat
+          lng
+          location
+        }
+      }
     }
     reportedLostItems {
       deliveredAt
@@ -32,6 +40,14 @@ query FindUserLostItems($where: UserWhereAuthIdInput!) {
       }
       retrievedAt
       title
+      drawer {
+        id
+        locker {
+          lat
+          lng
+          location
+        }
+      }
     }
   }
 }
