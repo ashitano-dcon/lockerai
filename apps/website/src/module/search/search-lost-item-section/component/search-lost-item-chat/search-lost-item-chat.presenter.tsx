@@ -1,8 +1,9 @@
 'use client';
 
+import { toast } from '#core/component/sonner';
 import { useChat } from '@ai-sdk/react';
 import { type ToolCall } from 'ai';
-import { type ComponentPropsWithoutRef } from 'react';
+import { type ComponentPropsWithoutRef, type FormEvent } from 'react';
 import { z } from 'zod';
 import { type LostItem } from '#website/common/model/lost-item';
 import { type UserPublicMeta } from '#website/common/model/user';
@@ -85,18 +86,27 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
     },
   });
 
+  // LLM応答中でも入力を許可しつつ、送信を制御するためのラップ関数
+  const handleSubmitWrapper = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === 'ready') {
+      handleSubmit(e);
+    } else {
+      toast.error('You can not send message while the chatbot is responding.');
+    }
+  };
+
   return (
     <div className="relative flex h-full flex-col" {...props}>
       <div className="grow overflow-y-auto">{messages?.map((message) => <ChatMessage key={message.id} message={message} onClaim={onClaim} />)}</div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitWrapper}
         className="sticky bottom-4 w-full rounded-[20px] bg-gradient-to-b from-green-6 to-green-7 p-2 shadow-xl shadow-sage-9/10"
       >
         <input
           className="w-full rounded-xl border border-green-6 bg-sage-1 px-4 py-3 text-green-12 focus:outline-green-9 disabled:bg-sage-3 disabled:text-sage-11"
           value={input}
-          disabled={status !== 'ready'}
           placeholder={status === 'ready' ? 'Describe your lost item or situation...' : 'Waiting for response...'}
           onChange={handleInputChange}
         />
