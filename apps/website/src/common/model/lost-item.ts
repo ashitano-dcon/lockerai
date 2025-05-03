@@ -9,12 +9,28 @@ export type LostItem = {
   ownedAt: Date | null;
   deliveredAt: Date | null;
   retrievedAt: Date | null;
+  drawer?: {
+    id: number;
+    locker: {
+      lat: number;
+      lng: number;
+      location: string;
+    };
+  } | null;
 };
 
 export type CurrentTargetLostItem = {
   lostItem: LostItem;
   reporter: UserPublicMeta;
   owner: UserPublicMeta | null;
+  drawer?: {
+    id: number;
+    locker: {
+      lat: number;
+      lng: number;
+      location: string;
+    };
+  } | null;
 };
 
 export const mockLostItem = (lostItem: Partial<LostItem> = {}): LostItem => ({

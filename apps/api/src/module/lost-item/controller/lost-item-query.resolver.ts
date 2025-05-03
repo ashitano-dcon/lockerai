@@ -52,6 +52,8 @@ export class LostItemQuery {
     // 重要: リゾルバーがreporterとownerを解決するために必要なID
     response.reporterId = lostItem.reporterId;
     response.ownerId = lostItem.ownerId;
+    // drawer リゾルバーがdrawerIdを取得できるよう設定
+    response.drawerId = lostItem.drawerId;
 
     return response;
   }

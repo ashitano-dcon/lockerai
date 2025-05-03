@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef } from 'react';
 import { UserActionStatusList } from '#website/common/component/user-action-status-list';
 import type { CurrentTargetLostItem } from '#website/common/model/lost-item';
 import type { User } from '#website/common/model/user';
+import { LockerMap } from './locker-map';
 
 const pinnedTaskSectionVariant = tv({
   variants: {
@@ -81,7 +82,7 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
             skeleton={{
               className: 'rounded-2xl',
             }}
-            className="h-[320px] w-[480px] object-cover"
+            className="max-h-[700px] w-full max-w-[480px] object-cover"
           />
         </figure>
         <div className="flex w-fit shrink flex-col gap-7">
@@ -89,6 +90,7 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
             <h2 className="text-2xl font-bold text-sage-12 laptop:text-3xl">{currentTargetLostItem.lostItem.title}</h2>
             <p className="text-base text-sage-11 laptop:text-lg">{currentTargetLostItem.lostItem.description}</p>
           </hgroup>
+          {currentTargetLostItem.drawer && <LockerMap {...currentTargetLostItem.drawer.locker} className="h-[350px] w-full" />}
           <UserActionStatusList
             user={user}
             reporter={currentTargetLostItem.reporter}

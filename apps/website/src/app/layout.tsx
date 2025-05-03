@@ -6,6 +6,7 @@ import { colors } from '@lockerai/design-token';
 import { cn } from '@lockerai/tailwind';
 import type { Metadata, NextPage, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { GoogleMapsAPIProvider } from '#website/common/component/google-maps-api-provider';
 import { UrqlProvider } from '#website/infra/urql/ssr';
 import { Footer } from '#website/layout/global/footer';
 import '#website/style/global.css';
@@ -27,9 +28,11 @@ const RootLayout: NextPage<RootLayoutProps> = async ({ children }) => (
       />
       <UrqlProvider>
         <ThemeProvider attribute="data-theme" enableSystem defaultTheme="system">
-          {children}
-          <Footer />
-          <Sonner />
+          <GoogleMapsAPIProvider apiKey={process.env['NEXT_PUBLIC_GOOGLE_MAPS_API_KEY'] || ''}>
+            {children}
+            <Footer />
+            <Sonner />
+          </GoogleMapsAPIProvider>
         </ThemeProvider>
       </UrqlProvider>
     </body>

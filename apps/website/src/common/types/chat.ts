@@ -28,6 +28,17 @@ export const tools = {
           deliveredAt: z.date().nullable(),
           ownedAt: z.date().nullable(),
           retrievedAt: z.date().nullable(),
+          drawer: z
+            .object({
+              id: z.number(),
+              locker: z.object({
+                lat: z.number(),
+                lng: z.number(),
+                location: z.string(),
+              }),
+            })
+            .nullable()
+            .optional(),
         })
         .nullable(),
       reporter: z

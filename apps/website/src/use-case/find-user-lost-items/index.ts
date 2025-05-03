@@ -14,6 +14,14 @@ type FindUserLostItemsUseCaseOutput = {
     lostItem: LostItem;
     reporter: UserPublicMeta;
     owner: UserPublicMeta | null;
+    drawer?: {
+      id: number;
+      locker: {
+        lat: number;
+        lng: number;
+        location: string;
+      };
+    } | null;
   } | null;
   reportedLostItems: LostItem[];
   ownedLostItems: LostItem[];
@@ -90,6 +98,16 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
             name: data.findUser!.ownedLostItems[0]!.owner.name,
             avatarUrl: data.findUser!.ownedLostItems[0]!.owner.avatarUrl,
             isDiscloseAsOwner: data.findUser!.ownedLostItems[0]!.owner.isDiscloseAsOwner,
+          }
+        : null,
+      drawer: data.findUser!.ownedLostItems[0]!.drawer
+        ? {
+            id: data.findUser!.ownedLostItems[0]!.drawer.id,
+            locker: {
+              lat: data.findUser!.ownedLostItems[0]!.drawer.locker.lat,
+              lng: data.findUser!.ownedLostItems[0]!.drawer.locker.lng,
+              location: data.findUser!.ownedLostItems[0]!.drawer.locker.location,
+            },
           }
         : null,
     }))

@@ -13,5 +13,13 @@ query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
     title
     approveRate
     rejectRate
+    drawer {
+      id
+      locker {
+        lat
+        lng
+        location
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import { Image } from '@lockerai/core/component/image';
 import { useCallback, useState } from 'react';
 import { UserActionStatusList } from '#website/common/component/user-action-status-list';
 import { type ToolInvocationType, type ToolName, type ToolParameters, type ToolResult } from '#website/common/types/chat';
+import { LockerMap } from '~website/src/module/dashboard/pinned-task-section/locker-map';
 
 export type OnClaim = ({ lostItemId }: { lostItemId: string }) => Promise<void>;
 
@@ -116,7 +117,7 @@ export const ToolInvocation = <T extends ToolName>({ toolInvocation, onClaim }: 
         }
 
         return (
-          <div className="my-2 flex w-full flex-col items-center gap-4 rounded-xl bg-sage-3 p-4 desktop:flex-col">
+          <div className="-mx-3 my-2 flex w-[calc(100%+1.5rem)] flex-col items-center gap-4 rounded-xl bg-sage-3 p-4 tablet:mx-0 tablet:w-full desktop:flex-col">
             <div className="flex w-full flex-col items-center gap-6 desktop:flex-row desktop:gap-10">
               <figure className="shrink-0">
                 <Image
@@ -128,7 +129,7 @@ export const ToolInvocation = <T extends ToolName>({ toolInvocation, onClaim }: 
                   skeleton={{
                     className: 'rounded-2xl',
                   }}
-                  className="w-full object-cover"
+                  className="w-full max-w-[300px] object-cover"
                 />
               </figure>
               <div className="flex w-fit shrink flex-col gap-4">
@@ -137,7 +138,8 @@ export const ToolInvocation = <T extends ToolName>({ toolInvocation, onClaim }: 
                     The most similar item to &quot;{args.description}&quot; lost around {args.date}
                   </p>
                   <p className="text-xl font-bold text-sage-12 tablet:text-2xl">{title}</p>
-                  <p className="text-base text-sage-11 tablet:text-lg">{description}</p>
+                  <p className="text-sm text-sage-11">{description}</p>
+                  {lostItem.drawer && <LockerMap {...lostItem.drawer.locker} defaultZoom={12} className="h-[300px] w-full" />}
 
                   <div className="mt-2 flex flex-col gap-2 rounded-lg bg-sage-4 p-3">
                     <p className="text-sm font-bold text-sage-12">AI Match Result:</p>
