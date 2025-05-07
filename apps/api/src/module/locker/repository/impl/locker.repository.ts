@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { inArray } from 'drizzle-orm';
 import { InjectionToken } from '#api/common/constant/injection-token';
-import { DrizzleClient , lockers } from '#api/infra/drizzle';
+import { type DrizzleClient, lockers } from '#api/infra/drizzle';
 import { Locker } from '#api/module/locker/domain/locker.model';
 import type { LockerRepositoryInterface } from '#api/module/locker/repository/locker.repository';
 
