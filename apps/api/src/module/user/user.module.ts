@@ -1,5 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { InjectionToken } from '#api/common/constant/injection-token';
+import { drizzleProviders } from '#api/infra/drizzle';
 import { LostItemModule } from '#api/module/lost-item/lost-item.module';
 import { UserMutation } from './controller/user-mutation.resolver';
 import { UserQuery } from './controller/user-query.resolver';
@@ -16,6 +17,7 @@ import { UserUseCase } from './use-case/impl/user.use-case';
   imports: [forwardRef(() => LostItemModule)],
   controllers: [UserController],
   providers: [
+    ...drizzleProviders,
     ReporterDataLoader,
     OwnerDataLoader,
     ReporterLostItemsDataLoader,
