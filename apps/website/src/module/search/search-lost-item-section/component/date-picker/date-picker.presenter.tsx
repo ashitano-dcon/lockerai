@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@lockerai/core/componen
 import { CalendarIcon } from '@lockerai/core/icon/calendar-icon';
 import { formatDate } from '@lockerai/core/util/format-date';
 import { cn } from '@lockerai/tailwind';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type Dispatch, type SetStateAction, useEffect, useId, useState } from 'react';
 
 type DatePickerProps = Omit<ComponentPropsWithoutRef<'label'>, 'children' | 'className' | 'htmlFor'> & {
@@ -15,6 +16,7 @@ type DatePickerProps = Omit<ComponentPropsWithoutRef<'label'>, 'children' | 'cla
 };
 
 export const DatePicker = ({ date, setDate, error, input, ...props }: DatePickerProps) => {
+  const t = useTranslations('DatePicker');
   const [open, setOpen] = useState(false);
   const dateInputId = useId();
 
@@ -35,12 +37,16 @@ export const DatePicker = ({ date, setDate, error, input, ...props }: DatePicker
           {...props}
         >
           <span className="flex w-full items-center justify-between gap-8 border-b border-sage-7 bg-sage-1 p-3 tablet:px-5">
-            <span className="text-base font-bold text-sage-11 tablet:text-lg">Date of lost</span>
+            <span className="text-base font-bold text-sage-11 tablet:text-lg">{t('label')}</span>
             {error && <span className="text-sm text-red-11 tablet:text-base">{error}</span>}
           </span>
           <span className="flex items-center justify-between gap-10 p-3 tablet:px-5">
             <span className="font-code text-sm tablet:text-base">
-              {date ? <span className="text-sage-12">{formatDate(date, 'MMMM dd, yyyy')}</span> : <span className="text-sage-11">Pick a date</span>}
+              {date ? (
+                <span className="text-sage-12">{formatDate(date, 'MMMM dd, yyyy')}</span>
+              ) : (
+                <span className="text-sage-11">{t('placeholder')}</span>
+              )}
             </span>
             <CalendarIcon className="h-4 w-4 fill-sage-11" />
           </span>

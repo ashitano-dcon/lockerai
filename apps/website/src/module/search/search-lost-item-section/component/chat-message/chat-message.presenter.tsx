@@ -1,5 +1,6 @@
 import { type Message } from '@ai-sdk/react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef } from 'react';
 import { MemoizedMarkdown } from '#website/common/component/memoized-markdown/memoized-markdown';
 // eslint-disable-next-line no-restricted-imports
@@ -26,8 +27,9 @@ const messageVariants = {
 };
 
 export const ChatMessage = ({ message, onToolResult, onClaim }: ChatMessageProps) => {
+  const t = useTranslations('ChatMessage');
   const isUser = message.role === 'user';
-  const writer = isUser ? 'You (An Possible Owner)' : 'Lost and Found AI';
+  const writer = isUser ? t('userLabel') : t('aiLabel');
 
   return (
     <div className={`mb-4 flex overflow-x-hidden ${isUser ? 'justify-end' : 'justify-start'}`}>

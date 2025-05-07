@@ -169,7 +169,6 @@ Adidas「SAMBA」スニーカー。色は白で、つま先部分はグレーの
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
-
   const result = streamText({
     model: openai('gpt-4.1'),
     system: SYSTEM_PROMPT,
@@ -179,3 +178,5 @@ export async function POST(req: Request) {
 
   return result.toDataStreamResponse();
 }
+
+export const dynamic = 'force-dynamic';

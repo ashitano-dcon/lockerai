@@ -1,0 +1,106 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "Layout": {
+    "metadataTitle": "Locker.ai | deliver, store, retrieve lost items securely",
+    "metadataDescription": "Locker.ai is a service that uses a unique AI-driven authentication mechanism to safely report and retrieve lost items."
+  },
+  "HeroSection": {
+    "srTitle": "Locker.ai",
+    "deliver": "deliver,",
+    "store": "store,",
+    "retrieve": "retrieve",
+    "lostItems": "Lost items",
+    "securely": "Securely.",
+    "iFound": "I found",
+    "iLost": "I lost"
+  },
+  "SignInDialog": {
+    "title": "You need to sign in",
+    "prompt": "Locker.ai is a service that uses a unique AI-driven authentication mechanism to safely report and retrieve lost items. Sign in to the Locker.ai to manage lost items.",
+    "signInWithGoogle": "Sign in with Google"
+  },
+  "RelateResultDialog": {
+    "title": "Linking fingerprint successful!",
+    "description": "Now your fingerprint is linked to your account.\nPlease scan your fingerprint again to unlock the door."
+  },
+  "Footer": {
+    "srTitle": "Locker.ai",
+    "description": "AI-driven lost and found management service.",
+    "reference": "Reference",
+    "sourceCode": "Source code",
+    "design": "Design",
+    "copyright": "Copyright &copy; nitic-pbl-p8 all right reserved."
+  },
+  "InAppHeader": {
+    "overview": "Overview",
+    "search": "Search",
+    "report": "Report"
+  },
+  "ReportLostItemSection": {
+    "title": "Report",
+    "description": "Take photos of the lost item and report to it."
+  },
+  "ReportLostItemForm": {
+    "submitButton": "report",
+    "dropzoneText": "Drag and drop or select images of the lost item.",
+    "errorToast": "Failed to report lost item."
+  },
+  "ReportedDialog": {
+    "title": "Lost item was reported!",
+    "description": "Thank you for your good deed.\nPlease go to locker and store the lost item in the drawer provided.",
+    "dashboardButton": "Go Dashboard"
+  },
+  "SearchLostItemSection": {
+    "title": "Search",
+    "description": "Enter the description of the lost item and the date and time of loss.",
+    "claimErrorToast": "Failed to claim lost item: "
+  },
+  "SearchLostItemChat": {
+    "invalidDateFormat": "Invalid date format provided: ",
+    "noSimilarItemFound": "No similar lost item were found in the database.",
+    "cannotSendWhileResponding": "You can not send message while the chatbot is responding.",
+    "inputPlaceholderReady": "Describe your lost item or situation...",
+    "inputPlaceholderWaiting": "Waiting for response..."
+  },
+  "ToolInvocation": {
+    "claimButton": "It's mine",
+    "gettingDateTime": "Getting the current date and time...",
+    "currentDateTime": "It is {date} now.",
+    "searchingLostItem": "Searching for the lost item \"{description}\" lost around {date}...",
+    "noSimilarItemFoundDetailed": "No items similar to \"{description}\" lost around {date} were found. {message}",
+    "possiblyYours": "There is an item that is possibly yours, similar to \"{description}\" lost around {date}.",
+    "aiMatchResult": "AI Match Result:",
+    "accept": "Accept",
+    "reject": "Reject",
+    "mostSimilarItem": "The most similar item to \"{description}\" lost around {date}"
+  },
+  "ChatMessage": {
+    "userLabel": "You (An Possible Owner)",
+    "aiLabel": "Lost and Found AI"
+  },
+  "DatePicker": {
+    "label": "Date of lost",
+    "placeholder": "Pick a date"
+  },
+  "ResultDialog": {
+    "title": "You are authorized as owner!",
+    "description": "You are now authorized as the owner of this lost item.\nPlease go to the nearest locker and retrieve the lost item."
+  },
+  "ConfirmDialog": {
+    "title": "Similar lost item found!",
+    "rejectButton": "It's not mine"
+  },
+  "PinnedTaskSection": {
+    "currentState": "You are currently {state}",
+    "deliveringInstruction": "You are in the process of delivering a lost item. Please go to the nearest locker and put in the lost item.",
+    "retrievingInstruction": "You are in the process of retrieving a lost item. Please go to the nearest locker and take out the lost item."
+  },
+  "LockerMap": {
+    "storedAt": "Stored at \"{location}\"",
+    "googleMapsLink": "Google Maps",
+    "appleMapsLink": "Apple Maps"
+  }
+}

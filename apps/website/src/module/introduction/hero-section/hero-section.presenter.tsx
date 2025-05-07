@@ -4,6 +4,7 @@ import { BrandLogo } from '@lockerai/core/component/brand-logo';
 import { LinkButton } from '@lockerai/core/component/link-button';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type ReactNode, useEffect, useState } from 'react';
 import { RelateResultDialog } from './component/relate-result-dialog';
 import { SignInDialog } from './component/sign-in-dialog';
@@ -15,6 +16,7 @@ type HeroSectionProps = Omit<ComponentPropsWithoutRef<'section'>, 'children' | '
 };
 
 export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props }: HeroSectionProps): ReactNode => {
+  const t = useTranslations('HeroSection');
   const [isLogoAnimated, setIsLogoAnimated] = useState(false);
   const [isSignInDialogOpen, setIsSignInDialogOpen] = useState<boolean>();
   const [isRelateResultDialogOpen, setIsRelateResultDialogOpen] = useState<boolean>();
@@ -30,7 +32,7 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
     if (isSignInDialogOpen === false && isRelateResultDialogOpen === false) {
       router.push('/');
     }
-  }, [isSignInDialogOpen, isRelateResultDialogOpen, router]);
+  }, [isSignInDialogOpen, isRelateResultDialogOpen]);
 
   return (
     <section className="relative flex h-[100svh] items-center justify-center px-5 tablet:px-20" {...props}>
@@ -39,7 +41,7 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
       <div className="flex w-[940px] flex-col items-center gap-8 tablet:gap-16">
         <motion.hgroup layout data-chromatic="ignore" className="flex flex-col items-center gap-6">
           <motion.h1 layout className="w-fit">
-            <span className="sr-only">Locker.ai</span>
+            <span className="sr-only">{t('srTitle')}</span>
             <BrandLogo
               aria-hidden
               withAnimate
@@ -66,15 +68,15 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
             >
               <span className="flex flex-col font-extra-bold">
                 <span className="flex flex-col tablet:inline">
-                  <span className="text-purple-11">deliver,</span>
+                  <span className="text-purple-11">{t('deliver')}</span>
                   <span className="hidden tablet:inline">&nbsp;</span>
-                  <span className="text-amber-11">store,</span>
+                  <span className="text-amber-11">{t('store')}</span>
                   <span className="hidden tablet:inline">&nbsp;</span>
-                  <span className="text-cyan-11">retrieve</span>
+                  <span className="text-cyan-11">{t('retrieve')}</span>
                 </span>
-                <span>Lost items</span>
+                <span>{t('lostItems')}</span>
               </span>
-              <span className="font-display-black text-green-11">Securely.</span>
+              <span className="font-display-black text-green-11">{t('securely')}</span>
             </motion.p>
           )}
         </motion.hgroup>
@@ -104,7 +106,7 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
               },
             }}
           >
-            I found
+            {t('iFound')}
           </LinkButton>
           <LinkButton
             href="/search"
@@ -118,7 +120,7 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
               },
             }}
           >
-            I lost
+            {t('iLost')}
           </LinkButton>
         </motion.div>
       </div>

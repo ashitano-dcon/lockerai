@@ -1,3 +1,5 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
 /** @type {import('next').NextConfig} */
 const config = {
   images: {
@@ -10,10 +12,16 @@ const config = {
         protocol: 'https',
         hostname: 'qqxrhrpybdpxlwirjhaw.supabase.co',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '54321',
+      },
     ],
   },
   reactStrictMode: true,
   transpilePackages: ['@lockerai/core'],
 };
 
-export default config;
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(config);

@@ -15,7 +15,9 @@ export const AuthGuardProvider = (): ReactNode => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_, session) => {
       if (session === null) {
-        router.replace(`/?asAuth=true&redirectPathname=${encodeURIComponent(pathname)}`);
+        setTimeout(() => {
+          router.replace(`/?asAuth=true&redirectPathname=${encodeURIComponent(pathname)}`);
+        }, 0);
       }
     });
 

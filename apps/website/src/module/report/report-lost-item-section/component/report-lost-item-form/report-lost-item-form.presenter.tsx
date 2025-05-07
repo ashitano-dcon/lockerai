@@ -9,6 +9,7 @@ import { ErrorIcon } from '@lockerai/core/icon/error-icon';
 import { SubmitIcon } from '@lockerai/core/icon/submit-icon';
 import { cn } from '@lockerai/tailwind';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { type ChangeEvent, type ComponentPropsWithoutRef, type FormEvent, useCallback, useState } from 'react';
 
 type ImageFileData = {
@@ -21,6 +22,7 @@ type ReportLostItemFormProps = Omit<ComponentPropsWithoutRef<'form'>, 'children'
 };
 
 export const ReportLostItemForm = ({ reportLostItem, ...props }: ReportLostItemFormProps) => {
+  const t = useTranslations('ReportLostItemForm');
   const [imageFiles, setImageFiles] = useState<ImageFileData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -47,7 +49,7 @@ export const ReportLostItemForm = ({ reportLostItem, ...props }: ReportLostItemF
       setLoading(true);
 
       const res = await reportLostItem(imageFiles.map((imageFile) => imageFile.file)).catch((error) => {
-        toast.error('Failed to report lost item.', {
+        toast.error(t('errorToast'), {
           description: error.message.replace('[GraphQL] ', ''),
           icon: <ErrorIcon />,
         });
@@ -63,7 +65,7 @@ export const ReportLostItemForm = ({ reportLostItem, ...props }: ReportLostItemF
       setImageFiles([]);
       setLoading(false);
     },
-    [imageFiles, reportLostItem],
+    [imageFiles, reportLostItem, t],
   );
 
   const disabled = imageFiles.length <= 0 || loading;
@@ -80,13 +82,13 @@ export const ReportLostItemForm = ({ reportLostItem, ...props }: ReportLostItemF
           loading,
         }}
       >
-        report
+        {t('submitButton')}
         <SubmitIcon className={cn('h-4 w-4', disabled ? 'fill-sage-11' : 'fill-green-11')} />
       </Button>
       <div className="relative h-72 w-full rounded-2xl border-2 border-dotted border-green-7 p-5 tablet:h-[400px]">
         <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center gap-4">
           <AddingImageIcon className="h-28 w-28 fill-green-7 tablet:h-[200px] tablet:w-[200px]" />
-          <span className="text-base text-sage-11 tablet:text-2xl">Drag and drop or select images of the lost item.</span>
+          <span className="text-base text-sage-11 tablet:text-2xl">{t('dropzoneText')}</span>
           <input type="file" accept="image/*" multiple onChange={onChange} className="absolute left-0 top-0 h-full w-full cursor-pointer opacity-0" />
         </label>
         <div className="absolute left-4 top-4 flex max-w-full flex-wrap items-center gap-4 tablet:left-14 tablet:top-7 tablet:gap-6">

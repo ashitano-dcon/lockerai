@@ -1,0 +1,106 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "Layout": {
+    "metadataTitle": "Locker.ai | 遺失物を安全に届け、保管、取り出すサービス",
+    "metadataDescription": "Locker.aiは、ユニークなAI駆動認証機構を使用して、安全に遺失物を届出し、受け取りできるサービスです。"
+  },
+  "HeroSection": {
+    "srTitle": "Locker.ai",
+    "deliver": "届出から、",
+    "store": "保管して、",
+    "retrieve": "受け取りまで、",
+    "lostItems": "遺失物を",
+    "securely": "いつでも安全に。",
+    "iFound": "見つけた",
+    "iLost": "失くした"
+  },
+  "SignInDialog": {
+    "title": "サインインが必要です",
+    "prompt": "Locker.aiは、ユニークなAI駆動認証機構を使用して、安全に遺失物を届出し、受け取りできるサービスです。Locker.aiにサインインして遺失物を管理しましょう。",
+    "signInWithGoogle": "Googleでサインイン"
+  },
+  "RelateResultDialog": {
+    "title": "指紋の連携に成功しました！",
+    "description": "指紋がアカウントに連携されました。\n再度指紋をスキャンしてドアのロックを解除してください。"
+  },
+  "Footer": {
+    "srTitle": "Locker.ai",
+    "description": "AI駆動の遺失物管理サービス。",
+    "reference": "リファレンス",
+    "sourceCode": "ソースコード",
+    "design": "デザイン",
+    "copyright": "Copyright &copy; nitic-pbl-p8 all right reserved."
+  },
+  "InAppHeader": {
+    "overview": "概要",
+    "search": "検索",
+    "report": "届出"
+  },
+  "ReportLostItemSection": {
+    "title": "遺失物の届出",
+    "description": "遺失物の写真を撮って届出します。"
+  },
+  "ReportLostItemForm": {
+    "submitButton": "届出する",
+    "dropzoneText": "遺失物の画像をドラッグ＆ドロップするか、選択してください。",
+    "errorToast": "遺失物の届出に失敗しました。"
+  },
+  "ReportedDialog": {
+    "title": "遺失物を届出しました！",
+    "description": "ご協力ありがとうございます。\n最寄りのロッカーへ行き、指定された引き出しに遺失物を保管してください。",
+    "dashboardButton": "ダッシュボードへ"
+  },
+  "SearchLostItemSection": {
+    "title": "遺失物の検索",
+    "description": "遺失物の特徴と紛失日時を入力してください。",
+    "claimErrorToast": "遺失物の申し立てに失敗しました: "
+  },
+  "SearchLostItemChat": {
+    "invalidDateFormat": "無効な日付形式です: ",
+    "noSimilarItemFound": "データベースに類似の遺失物は見つかりませんでした。",
+    "cannotSendWhileResponding": "チャットボット応答中はメッセージを送信できません。",
+    "inputPlaceholderReady": "遺失物の特徴や状況を記述してください...",
+    "inputPlaceholderWaiting": "応答を待っています..."
+  },
+  "ToolInvocation": {
+    "claimButton": "これは私のです",
+    "gettingDateTime": "現在日時を取得しています...",
+    "currentDateTime": "現在は {date} です。",
+    "searchingLostItem": "\"{description}\"（{date}頃紛失）に類似する遺失物を検索しています...",
+    "noSimilarItemFoundDetailed": "\"{description}\"（{date}頃紛失）に類似する遺失物は見つかりませんでした。{message}",
+    "possiblyYours": "\"{description}\"（{date}頃紛失）に類似する、あなたの可能性のある遺失物があります。",
+    "aiMatchResult": "AI照合結果:",
+    "accept": "一致",
+    "reject": "不一致",
+    "mostSimilarItem": "\"{description}\"（{date}頃紛失）に最も類似する遺失物"
+  },
+  "ChatMessage": {
+    "userLabel": "あなた（遺失物の可能性のある所有者）",
+    "aiLabel": "遺失物管理AI"
+  },
+  "DatePicker": {
+    "label": "紛失日",
+    "placeholder": "日付を選択"
+  },
+  "ResultDialog": {
+    "title": "所有者として認証されました！",
+    "description": "この遺失物の所有者として認証されました。\n最寄りのロッカーへ行き、遺失物を受け取ってください。"
+  },
+  "ConfirmDialog": {
+    "title": "類似の遺失物が見つかりました！",
+    "rejectButton": "私のではありません"
+  },
+  "PinnedTaskSection": {
+    "currentState": "あなたは現在 {state} 中です",
+    "deliveringInstruction": "遺失物の届け出処理中です。最寄りのロッカーに行き、遺失物を投入してください。",
+    "retrievingInstruction": "遺失物の受け取り処理中です。最寄りのロッカーに行き、遺失物を取り出してください。"
+  },
+  "LockerMap": {
+    "storedAt": "\"{location}\" に保管中",
+    "googleMapsLink": "Googleマップ",
+    "appleMapsLink": "Appleマップ"
+  }
+}

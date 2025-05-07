@@ -3,6 +3,7 @@
 import { toast } from '#core/component/sonner';
 import { useChat } from '@ai-sdk/react';
 import { type ToolCall } from 'ai';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type FormEvent } from 'react';
 import { z } from 'zod';
 import { type LostItem } from '#website/common/model/lost-item';
@@ -25,6 +26,7 @@ type SearchLostItemChatProps = Omit<ComponentPropsWithoutRef<'div'>, 'children'>
 };
 
 export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }: SearchLostItemChatProps) => {
+  const t = useTranslations('SearchLostItemChat');
   const { status, messages, input, handleInputChange, handleSubmit } = useChat({
     maxSteps: 5,
     api: '/api/chat',
@@ -54,11 +56,11 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
           const { description, date: dateString } = parseResult;
           const lostAt = new Date(dateString);
           if (Number.isNaN(lostAt.getTime())) {
-            throw new Error(`Invalid date format provided: ${dateString}`);
+            throw new Error(`${t('invalidDateFormat')}${dateString}`);
           }
           const result = await findSimilarLostItemUseCase(description, lostAt);
           if (!result) {
-            throw new Error('No similar lost item were found in the database.');
+            throw new Error(t('noSimilarItemFound'));
           }
           // 修正: returnを削除し、elseを削除
           if (result) {
@@ -92,7 +94,7 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
     if (status === 'ready') {
       handleSubmit(e);
     } else {
-      toast.error('You can not send message while the chatbot is responding.');
+      toast.error(t('cannotSendWhileResponding'));
     }
   };
 
@@ -107,7 +109,7 @@ export const SearchLostItemChat = ({ onSimilarLostItemFound, onClaim, ...props }
         <input
           className="w-full rounded-xl border border-green-6 bg-sage-1 px-4 py-3 text-green-12 focus:outline-green-9 disabled:bg-sage-3 disabled:text-sage-11"
           value={input}
-          placeholder={status === 'ready' ? 'Describe your lost item or situation...' : 'Waiting for response...'}
+          placeholder={status === 'ready' ? t('inputPlaceholderReady') : t('inputPlaceholderWaiting')}
           onChange={handleInputChange}
         />
       </form>
