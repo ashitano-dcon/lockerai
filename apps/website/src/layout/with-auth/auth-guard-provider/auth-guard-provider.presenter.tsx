@@ -1,8 +1,8 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { usePathname, useRouter } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
+import { usePathname, useRouter } from '#website/i18n/navigation';
 
 export const AuthGuardProvider = (): ReactNode => {
   const router = useRouter();

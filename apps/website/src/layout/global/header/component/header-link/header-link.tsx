@@ -1,8 +1,7 @@
-import { Link } from '#core/component/link';
 import { type VariantProps, cn, tv } from '@lockerai/tailwind';
-import { usePathname } from 'next/navigation';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { useMemo } from 'react';
+import { Link, usePathname } from '#website/i18n/navigation';
 
 const headerLinkVariant = tv({
   base: 'flex items-center justify-center rounded-t-lg p-3 font-bold hover:bg-sage-3',
@@ -19,15 +18,15 @@ const headerLinkVariant = tv({
 
 type HeaderLinkProps = ComponentPropsWithoutRef<typeof Link> & VariantProps<typeof headerLinkVariant>;
 
-export const HeaderLink = ({ children, className, ...props }: HeaderLinkProps): ReactNode => {
+export const HeaderLink = ({ href, children, className, ...props }: HeaderLinkProps): ReactNode => {
   // Retrieve the current path starting with /.
   // Refer: https://nextjs.org/docs/app/api-reference/functions/use-pathname
   const currentPath = usePathname(); // e.g. `/docs/works/shelfree`
   // Check if the current path is the same as the href.
-  const isBeingOpened = useMemo(() => !!props.href && currentPath === props.href.toString(), [currentPath, props.href]);
+  const isBeingOpened = useMemo(() => !!href && currentPath === href.toString(), [currentPath, href]);
 
   return (
-    <Link className={cn(headerLinkVariant({ selected: isBeingOpened }), className)} {...props}>
+    <Link href={href} className={cn(headerLinkVariant({ selected: isBeingOpened }), className)} {...props}>
       {children}
     </Link>
   );

@@ -3,9 +3,9 @@
 import { BrandLogo } from '@lockerai/core/component/brand-logo';
 import { LinkButton } from '@lockerai/core/component/link-button';
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type ReactNode, useEffect, useState } from 'react';
+import { useRouter } from '#website/i18n/navigation';
 import { RelateResultDialog } from './component/relate-result-dialog';
 import { SignInDialog } from './component/sign-in-dialog';
 
@@ -32,7 +32,7 @@ export const HeroSection = ({ asAuth, redirectPathname, asRelateResult, ...props
     if (isSignInDialogOpen === false && isRelateResultDialogOpen === false) {
       router.push('/');
     }
-  }, [isSignInDialogOpen, isRelateResultDialogOpen]);
+  }, [isSignInDialogOpen, isRelateResultDialogOpen, router]);
 
   return (
     <section className="relative flex h-[100svh] items-center justify-center px-5 tablet:px-20" {...props}>

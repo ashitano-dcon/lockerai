@@ -3,9 +3,9 @@
 import { Button } from '@lockerai/core/component/button';
 import { Dialog, DialogContent } from '@lockerai/core/component/dialog';
 import { MemoEmojiIcon } from '@lockerai/core/icon/memo-emoji-icon';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type ReactNode, useState } from 'react';
+import { useRouter } from '#website/i18n/navigation';
 
 type ReportedDialogProps = Omit<ComponentPropsWithoutRef<typeof Dialog>, 'children' | 'className'>;
 
