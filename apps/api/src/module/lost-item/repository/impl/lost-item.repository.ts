@@ -115,7 +115,7 @@ export class LostItemRepository implements LostItemRepositoryInterface {
       })
       .from(lostItems)
       .where(isNull(lostItems.ownerId))
-      .orderBy(desc(similaritySql))
+      .orderBy(similaritySql)
       .limit(10);
 
     return similarLostItems.map(({ similarity, ...lostItem }) => [this.mapToLostItem(lostItem), similarity]);
