@@ -1,133 +1,184 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from '#api/infra/prisma/prisma.service';
+import { cosineDistance, desc, eq, inArray, isNull, sql } from 'drizzle-orm';
+import { InjectionToken } from '#api/common/constant/injection-token';
+import { type DrizzleClient, lostItems } from '#api/infra/drizzle';
 import { LostItem } from '#api/module/lost-item/domain/lost-item.model';
 import type { LostItemRepositoryInterface } from '#api/module/lost-item/repository/lost-item.repository';
 
+type LostItemDto = typeof lostItems.$inferSelect;
+
 @Injectable()
 export class LostItemRepository implements LostItemRepositoryInterface {
-  constructor(@Inject(PrismaService) private readonly prismaService: PrismaService) {}
+  constructor(
+    @Inject(InjectionToken.DRIZZLE_CLIENT)
+    private readonly drizzleClient: DrizzleClient,
+  ) {}
+
+  private mapToLostItem(lostItem: LostItemDto): LostItem {
+    return new LostItem({
+      ...lostItem,
+      imageUrls: lostItem.imageUrls ?? [],
+      reportedAt: new Date(lostItem.reportedAt),
+      deliveredAt: lostItem.deliveredAt ? new Date(lostItem.deliveredAt) : null,
+      retrievedAt: lostItem.retrievedAt ? new Date(lostItem.retrievedAt) : null,
+      ownedAt: lostItem.ownedAt ? new Date(lostItem.ownedAt) : null,
+    });
+  }
 
   async find(lostItemId: Parameters<LostItemRepositoryInterface['find']>[0]): Promise<LostItem | null> {
-    const lostItem = await this.prismaService.lostItem.findUnique({
-      where: { id: lostItemId },
-    });
+    const [lostItem] = await this.drizzleClient.select().from(lostItems).where(eq(lostItems.id, lostItemId));
     if (!lostItem) {
       return null;
     }
 
-    return new LostItem(lostItem);
+    return this.mapToLostItem(lostItem);
   }
 
   async findByDrawerId(drawerId: Parameters<LostItemRepositoryInterface['findByDrawerId']>[0]): Promise<LostItem | null> {
-    const lostItem = await this.prismaService.lostItem.findUnique({
-      where: { drawerId },
-    });
+    const [lostItem] = await this.drizzleClient.select().from(lostItems).where(eq(lostItems.drawerId, drawerId));
     if (!lostItem) {
       return null;
     }
 
-    return new LostItem(lostItem);
+    return this.mapToLostItem(lostItem);
   }
 
   async findByReporterId(id: Parameters<LostItemRepositoryInterface['findByReporterId']>[0]): Promise<LostItem | null> {
-    const lostItem = await this.prismaService.lostItem.findFirst({
-      where: {
-        reporter: {
-          id,
-        },
-      },
-      orderBy: {
-        reportedAt: 'desc',
-      },
-    });
+    const [lostItem] = await this.drizzleClient
+      .select()
+      .from(lostItems)
+      .where(eq(lostItems.reporterId, id))
+      .orderBy(desc(lostItems.reportedAt))
+      .limit(1);
+
     if (!lostItem) {
       return null;
     }
 
-    return new LostItem(lostItem);
+    return this.mapToLostItem(lostItem);
   }
 
   async findByOwnerId(id: Parameters<LostItemRepositoryInterface['findByOwnerId']>[0]): Promise<LostItem | null> {
-    const lostItem = await this.prismaService.lostItem.findFirst({
-      where: {
-        owner: {
-          id,
-        },
-      },
-      orderBy: {
-        ownedAt: 'desc',
-      },
-    });
+    const [lostItem] = await this.drizzleClient.select().from(lostItems).where(eq(lostItems.ownerId, id)).orderBy(desc(lostItems.ownedAt)).limit(1);
+
     if (!lostItem) {
       return null;
     }
 
-    return new LostItem(lostItem);
+    return this.mapToLostItem(lostItem);
   }
 
   async findMany(lostItemIds: Parameters<LostItemRepositoryInterface['findMany']>[0]): Promise<LostItem[]> {
-    const lostItems = await this.prismaService.lostItem.findMany({
-      where: { id: { in: lostItemIds } },
-    });
+    const foundLostItems = await this.drizzleClient.select().from(lostItems).where(inArray(lostItems.id, lostItemIds));
 
-    return lostItems.map((lostItem) => new LostItem(lostItem));
+    return foundLostItems.map(this.mapToLostItem);
   }
 
   async findManyByReporterIds(reporterIds: Parameters<LostItemRepositoryInterface['findManyByReporterIds']>[0]): Promise<LostItem[]> {
-    const lostItems = await this.prismaService.lostItem.findMany({
-      where: { reporterId: { in: reporterIds } },
-      orderBy: { reportedAt: 'desc' },
-    });
+    const foundLostItems = await this.drizzleClient
+      .select()
+      .from(lostItems)
+      .where(inArray(lostItems.reporterId, reporterIds))
+      .orderBy(desc(lostItems.reportedAt));
 
-    return lostItems.map((lostItem) => new LostItem(lostItem));
+    return foundLostItems.map(this.mapToLostItem);
   }
 
   async findManyByOwnerIds(ownerIds: Parameters<LostItemRepositoryInterface['findManyByOwnerIds']>[0]): Promise<LostItem[]> {
-    const lostItems = await this.prismaService.lostItem.findMany({
-      where: { ownerId: { in: ownerIds } },
-      orderBy: { ownedAt: 'desc' },
-    });
+    const foundLostItems = await this.drizzleClient
+      .select()
+      .from(lostItems)
+      .where(inArray(lostItems.ownerId, ownerIds))
+      .orderBy(desc(lostItems.ownedAt));
 
-    return lostItems.map((lostItem) => new LostItem(lostItem));
+    return foundLostItems.map(this.mapToLostItem);
   }
 
   async findSimilar(embeddedDescription: Parameters<LostItemRepositoryInterface['findSimilar']>[0]): Promise<[LostItem, number][]> {
-    const similarLostItems = await this.prismaService.$queryRaw<(LostItem & { similarity: number })[]>`
-      SELECT id, title, description, image_urls AS "imageUrls", drawer_id AS "drawerId", reporter_id AS "reporterId", owner_id AS "ownerId", reported_at AS "reportedAt", delivered_at AS "deliveredAt", retrieved_at AS "retrievedAt", 1 - (embedded_description <=> ${embeddedDescription}::vector) AS similarity
-      FROM public.lost_items
-      WHERE owner_id IS NULL
-      ORDER BY similarity
-      LIMIT 10
-    `;
+    const similaritySql = sql<number>`1 - (${cosineDistance(lostItems.embeddedDescription, embeddedDescription)})`;
 
-    return similarLostItems.map(({ similarity, ...lostItem }) => [new LostItem(lostItem), similarity]);
+    const similarLostItems = await this.drizzleClient
+      .select({
+        id: lostItems.id,
+        title: lostItems.title,
+        description: lostItems.description,
+        imageUrls: lostItems.imageUrls,
+        drawerId: lostItems.drawerId,
+        reporterId: lostItems.reporterId,
+        ownerId: lostItems.ownerId,
+        reportedAt: lostItems.reportedAt,
+        deliveredAt: lostItems.deliveredAt,
+        retrievedAt: lostItems.retrievedAt,
+        ownedAt: lostItems.ownedAt,
+        embeddedDescription: lostItems.embeddedDescription,
+        similarity: similaritySql,
+      })
+      .from(lostItems)
+      .where(isNull(lostItems.ownerId))
+      .orderBy(similaritySql)
+      .limit(10);
+
+    return similarLostItems.map(({ similarity, ...lostItem }) => [this.mapToLostItem(lostItem), similarity]);
   }
 
   async create(
     lostItem: Parameters<LostItemRepositoryInterface['create']>[0],
     embeddedDescription: Parameters<LostItemRepositoryInterface['create']>[1],
   ): Promise<LostItem> {
-    const [createdLostItem] = await this.prismaService.$queryRaw<LostItem[]>`
-      INSERT INTO public.lost_items (id, title, description, embedded_description, image_urls, drawer_id, reporter_id, reported_at)
-      VALUES (${lostItem.id}::uuid, ${lostItem.title}, ${lostItem.description}, ${embeddedDescription}::vector, ${lostItem.imageUrls}, ${lostItem.drawerId}, ${lostItem.reporterId}::uuid, NOW())
-      RETURNING id, title, description, image_urls AS "imageUrls", drawer_id AS "drawerId", reporter_id AS "reporterId", owner_id AS "ownerId", reported_at AS "reportedAt", delivered_at AS "deliveredAt", retrieved_at AS "retrievedAt"
-    `;
+    const [createdLostItem] = await this.drizzleClient
+      .insert(lostItems)
+      .values({
+        id: lostItem.id,
+        title: lostItem.title,
+        description: lostItem.description,
+        embeddedDescription,
+        imageUrls: lostItem.imageUrls,
+        drawerId: lostItem.drawerId,
+        reporterId: lostItem.reporterId,
+        reportedAt: new Date().toISOString(),
+      })
+      .returning();
+
     if (!createdLostItem) {
       throw new Error('Failed to create lostItem.');
     }
 
-    return new LostItem(createdLostItem);
+    return this.mapToLostItem(createdLostItem);
   }
 
   async update(
     lostItemId: Parameters<LostItemRepositoryInterface['update']>[0],
     lostItem: Parameters<LostItemRepositoryInterface['update']>[1],
   ): Promise<LostItem> {
-    const updatedLostItem = await this.prismaService.lostItem.update({
-      where: { id: lostItemId },
-      data: lostItem,
-    });
+    const updateData: {
+      ownerId?: string;
+      ownedAt?: string;
+      deliveredAt?: string;
+      retrievedAt?: string;
+    } = {};
 
-    return new LostItem(updatedLostItem);
+    if (lostItem.ownerId) {
+      updateData.ownerId = lostItem.ownerId;
+    }
+
+    if (lostItem.ownedAt) {
+      updateData.ownedAt = lostItem.ownedAt.toISOString();
+    }
+
+    if (lostItem.deliveredAt) {
+      updateData.deliveredAt = lostItem.deliveredAt.toISOString();
+    }
+
+    if (lostItem.retrievedAt) {
+      updateData.retrievedAt = lostItem.retrievedAt.toISOString();
+    }
+
+    const [updatedLostItem] = await this.drizzleClient.update(lostItems).set(updateData).where(eq(lostItems.id, lostItemId)).returning();
+
+    if (!updatedLostItem) {
+      throw new Error('Failed to update lostItem.');
+    }
+
+    return this.mapToLostItem(updatedLostItem);
   }
 }

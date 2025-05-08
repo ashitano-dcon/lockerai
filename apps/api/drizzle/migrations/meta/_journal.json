@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1746629689632,
+      "tag": "0000_unknown_arachne",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1746630654008,
+      "tag": "0001_classy_taskmaster",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1746639450266,
+      "tag": "0002_groovy_franklin_storm",
+      "breakpoints": true
+    }
+  ]
+}

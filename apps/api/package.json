@@ -20,9 +20,10 @@
     "fmt": "prettier --check .",
     "fmt:fix": "prettier --write .",
     "test": "cross-env NODE_ENV=test jest --silent=false --verbose false --passWithNoTests",
-    "db:generate": "prisma generate --schema ./src/infra/prisma/schema.prisma",
-    "db:push:dev": "dotenv -e .env.development -- cross-env NODE_ENV=development prisma db push --schema ./src/infra/prisma/schema.prisma",
-    "db:migrate:dev": "dotenv -e .env.development -- cross-env NODE_ENV=development prisma migrate dev --schema ./src/infra/prisma/schema.prisma --name migration",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:push:dev": "dotenv -e .env.development -- cross-env NODE_ENV=development drizzle-kit push --schema ./src/infra/drizzle/schema.ts",
+    "db:migrate:dev": "drizzle-kit migrate",
     "db:migrate:sync": "supabase db diff -f migration",
     "db:deploy:dev": "dotenv -e .env.development -- cross-env NODE_ENV=development prisma migrate deploy --schema ./src/infra/prisma/schema.prisma && pnpm db:migrate:sync",
     "db:studio": "dotenv -e .env.development -- cross-env NODE_ENV=development prisma studio --schema ./src/infra/prisma/schema.prisma",
@@ -48,10 +49,12 @@
     "class-validator": "0.14.0",
     "dataloader": "2.2.2",
     "dotenv": "16.3.1",
+    "drizzle-orm": "0.42.0",
     "graphql-subscriptions": "2.0.0",
     "graphql-upload": "15.0.2",
     "graphql-validation-complexity": "0.4.2",
     "langchain": "0.1.3",
+    "postgres": "3.4.5",
     "ts-pattern": "5.0.6",
     "uuid": "9.0.1",
     "zod": "3.22.4"
@@ -66,7 +69,7 @@
     "@types/graphql-upload": "15.0.2",
     "@types/graphql-validation-complexity": "0.4.4",
     "@types/uuid": "9.0.7",
-    "eslint-config-lockerai-node": "workspace:*",
-    "prisma": "5.8.0"
+    "drizzle-kit": "0.31.1",
+    "eslint-config-lockerai-node": "workspace:*"
   }
 }

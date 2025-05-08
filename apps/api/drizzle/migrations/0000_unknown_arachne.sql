@@ -1,0 +1,67 @@
+-- Current sql file was generated after introspecting the database
+-- If you want to run this migration please uncomment this code before executing migrations
+
+-- CREATE TYPE "public"."LostAndFoundState" AS ENUM('NONE', 'DELIVERING', 'RETRIEVING');--> statement-breakpoint
+-- CREATE TYPE "public"."UserRole" AS ENUM('USER', 'OCCUPIER');--> statement-breakpoint
+-- CREATE TABLE "drawers" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"locker_id" uuid NOT NULL,
+-- 	"created_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "lockers" (
+-- 	"id" uuid PRIMARY KEY NOT NULL,
+-- 	"name" varchar(32) NOT NULL,
+-- 	"created_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+-- 	"lat" double precision NOT NULL,
+-- 	"lng" double precision NOT NULL,
+-- 	"location" text NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "lost_items" (
+-- 	"id" uuid PRIMARY KEY NOT NULL,
+-- 	"embedded_description" vector NOT NULL,
+-- 	"image_urls" text[],
+-- 	"drawer_id" integer,
+-- 	"reported_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+-- 	"delivered_at" timestamp,
+-- 	"retrieved_at" timestamp,
+-- 	"owner_id" uuid,
+-- 	"reporter_id" uuid NOT NULL,
+-- 	"description" text NOT NULL,
+-- 	"title" text NOT NULL,
+-- 	"owned_at" timestamp
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "users" (
+-- 	"id" uuid PRIMARY KEY NOT NULL,
+-- 	"auth_id" uuid NOT NULL,
+-- 	"name" varchar(64) NOT NULL,
+-- 	"email" varchar(320) NOT NULL,
+-- 	"lost_and_found_state" "LostAndFoundState" DEFAULT 'NONE' NOT NULL,
+-- 	"avatar_url" text NOT NULL,
+-- 	"created_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+-- 	"hashed_fingerprint_id" char(64),
+-- 	"is_disclose_as_owner" boolean DEFAULT true NOT NULL,
+-- 	"role" "UserRole" DEFAULT 'USER' NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "_prisma_migrations" (
+-- 	"id" varchar(36) PRIMARY KEY NOT NULL,
+-- 	"checksum" varchar(64) NOT NULL,
+-- 	"finished_at" timestamp with time zone,
+-- 	"migration_name" varchar(255) NOT NULL,
+-- 	"logs" text,
+-- 	"rolled_back_at" timestamp with time zone,
+-- 	"started_at" timestamp with time zone DEFAULT now() NOT NULL,
+-- 	"applied_steps_count" integer DEFAULT 0 NOT NULL
+-- );
+-- --> statement-breakpoint
+-- ALTER TABLE "drawers" ADD CONSTRAINT "drawers_locker_id_fkey" FOREIGN KEY ("locker_id") REFERENCES "public"."lockers"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
+-- ALTER TABLE "lost_items" ADD CONSTRAINT "lost_items_drawer_id_fkey" FOREIGN KEY ("drawer_id") REFERENCES "public"."drawers"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+-- ALTER TABLE "lost_items" ADD CONSTRAINT "lost_items_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE cascade;--> statement-breakpoint
+-- ALTER TABLE "lost_items" ADD CONSTRAINT "lost_items_reporter_id_fkey" FOREIGN KEY ("reporter_id") REFERENCES "public"."users"("id") ON DELETE restrict ON UPDATE cascade;--> statement-breakpoint
+-- CREATE UNIQUE INDEX "lockers_name_key" ON "lockers" USING btree ("name" text_ops);--> statement-breakpoint
+-- CREATE UNIQUE INDEX "lost_items_drawer_id_key" ON "lost_items" USING btree ("drawer_id" int4_ops);--> statement-breakpoint
+-- CREATE UNIQUE INDEX "users_auth_id_key" ON "users" USING btree ("auth_id" uuid_ops);--> statement-breakpoint
+-- CREATE UNIQUE INDEX "users_hashed_fingerprint_id_key" ON "users" USING btree ("hashed_fingerprint_id" bpchar_ops);

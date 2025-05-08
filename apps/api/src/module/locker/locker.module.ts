@@ -1,5 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { InjectionToken } from '#api/common/constant/injection-token';
+import { drizzleProviders } from '#api/infra/drizzle';
 import { DrawerModule } from '#api/module/drawer/drawer.module';
 import { LockerMutation } from './controller/locker-mutation.resolver';
 import { LockerSubscription } from './controller/locker-subscription.resolver';
@@ -14,6 +15,7 @@ import { LockerPublishUseCase } from './use-case/impl/locker-publish.use-case';
   imports: [forwardRef(() => DrawerModule)],
   controllers: [LockerController],
   providers: [
+    ...drizzleProviders,
     LockerDataLoader,
     LockerDrawersDataLoader,
     { provide: InjectionToken.LOCKER_REPOSITORY, useClass: LockerRepository },

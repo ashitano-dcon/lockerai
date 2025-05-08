@@ -5,3 +5,5 @@ export interface DrawerUseCaseInterface {
   putInLostItem(reporterId: NonNullable<User['id']>): Promise<Drawer>;
   takeOutLostItem(ownerId: NonNullable<User['id']>): Promise<Drawer>;
 }
+
+//
