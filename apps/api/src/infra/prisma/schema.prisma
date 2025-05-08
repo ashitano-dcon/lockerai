@@ -44,7 +44,9 @@ model User {
 model LostItem {
   id                  String                @id @default(uuid()) @db.Uuid
   title               String                @map("title")
+  titleI18n           Json                  @map("title_i18n")
   description         String                @map("description")
+  descriptionI18n     Json                  @map("description_i18n")
   embeddedDescription Unsupported("vector") @map("embedded_description")
   imageUrls           String[]              @map("image_urls")
 
@@ -79,11 +81,13 @@ model Drawer {
 }
 
 model Locker {
-  id       String @id @default(uuid()) @db.Uuid
-  name     String @unique @map("name") @db.VarChar(32)
-  lat      Float  @map("lat")
-  lng      Float  @map("lng")
-  location String @map("location")
+  id           String @id @default(uuid()) @db.Uuid
+  name         String @unique @map("name") @db.VarChar(32)
+  nameI18n     Json   @map("name_i18n")
+  lat          Float  @map("lat")
+  lng          Float  @map("lng")
+  location     String @map("location")
+  locationI18n Json   @map("location_i18n")
 
   Drawer Drawer[]
 

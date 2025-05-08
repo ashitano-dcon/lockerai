@@ -20,6 +20,9 @@ const baseConfig: ApolloDriverConfig = {
     'graphql-ws': true,
   },
   validationRules: [createComplexityLimitRule(5000)],
+  buildSchemaOptions: {
+    dateScalarMode: 'timestamp',
+  },
 };
 
 const createDevelopmentConfig = (): ApolloDriverConfig => baseConfig;

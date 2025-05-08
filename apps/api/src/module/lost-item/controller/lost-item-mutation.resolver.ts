@@ -6,6 +6,7 @@ import GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 import { type FileUpload } from 'graphql-upload/Upload.js';
 import { InjectionToken } from '#api/common/constant/injection-token';
 import { AuthGuard } from '#api/common/guard/auth.guard';
+import { type I18nText } from '#api/common/type/locale';
 import type { LostItem } from '#api/module/lost-item/domain/lost-item.model';
 import { type LostItemUseCaseInterface } from '#api/module/lost-item/use-case/lost-item.use-case';
 import { UserWhereAuthIdInput } from '#api/module/user/controller/dto/input/user-where-auth-id.input';
@@ -32,7 +33,28 @@ export class LostItemMutation {
   ): Promise<LostItem> {
     this.logger.log(`${this.reportLostItem.name} called`);
 
-    const createdLostItem = await this.lostItemUseCase.reportLostItem(lostItem, await Promise.all(imageFilePromises));
+    // オプショナルなフィールドにデフォルト値を設定し、型を明示的に変換
+    const defaultI18n: I18nText = { en: '', ja: '' };
+
+    // Omit<LostItem, ...>の型に適合するオブジェクトを作成
+    const lostItemWithRequiredFields = {
+      reporterId: lostItem.reporterId,
+      titleI18n: lostItem.titleI18n
+        ? ({
+            en: lostItem.titleI18n['en'] || '',
+            ja: lostItem.titleI18n['ja'] || '',
+          } as I18nText)
+        : defaultI18n,
+      descriptionI18n: lostItem.descriptionI18n
+        ? ({
+            en: lostItem.descriptionI18n['en'] || '',
+            ja: lostItem.descriptionI18n['ja'] || '',
+          } as I18nText)
+        : defaultI18n,
+    };
+
+    const resolvedImageFiles = await Promise.all(imageFilePromises);
+    const createdLostItem = await this.lostItemUseCase.reportLostItem(lostItemWithRequiredFields, resolvedImageFiles);
 
     return createdLostItem;
   }

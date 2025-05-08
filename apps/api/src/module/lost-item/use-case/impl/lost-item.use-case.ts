@@ -68,6 +68,20 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
 
     const embeddedDescription = await this.langchainService.embedding(lostItemDescription.description);
 
+    // 6. 多言語データの生成
+    // 多言語データを準備
+    let titleI18nValue = lostItem.titleI18n;
+    let descriptionI18nValue = lostItem.descriptionI18n;
+
+    // ユーザーがタイトルや説明を指定していない場合、または一部のみを指定している場合は自動生成する
+    if (!lostItem.titleI18n || !lostItem.titleI18n.en || !lostItem.titleI18n.ja) {
+      titleI18nValue = await this.langchainService.translateToI18nText(lostItemDescription.title);
+    }
+
+    if (!lostItem.descriptionI18n || !lostItem.descriptionI18n.en || !lostItem.descriptionI18n.ja) {
+      descriptionI18nValue = await this.langchainService.translateToI18nText(lostItemDescription.description);
+    }
+
     const createdLostItem = await this.lostItemRepository.create(
       {
         ...lostItem,
@@ -80,6 +94,8 @@ export class LostItemUseCase implements LostItemUseCaseInterface {
         ownedAt: null,
         deliveredAt: null,
         retrievedAt: null,
+        titleI18n: titleI18nValue,
+        descriptionI18n: descriptionI18nValue,
       },
       embeddedDescription,
     );
