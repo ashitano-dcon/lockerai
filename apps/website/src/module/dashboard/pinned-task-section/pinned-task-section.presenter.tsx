@@ -1,10 +1,11 @@
 import { Image } from '@lockerai/core/component/image';
 import { type VariantProps, cn, tv } from '@lockerai/tailwind';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import type { ComponentPropsWithoutRef } from 'react';
 import { UserActionStatusList } from '#website/common/component/user-action-status-list';
 import type { CurrentTargetLostItem } from '#website/common/model/lost-item';
 import type { User } from '#website/common/model/user';
+import { pickI18nText } from '#website/i18n/locales';
 import { LockerMap } from './locker-map';
 
 const pinnedTaskSectionVariant = tv({
@@ -53,6 +54,11 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
   const { beacon, heading } = pinnedTaskSectionVariant({ ...variant });
   const stateLowerCase = user.lostAndFoundState.toLowerCase();
 
+  const locale = useLocale();
+  const titleI18nText = pickI18nText(currentTargetLostItem.lostItem.titleI18n, locale, currentTargetLostItem.lostItem.title);
+  const descriptionI18nText = pickI18nText(currentTargetLostItem.lostItem.descriptionI18n, locale, currentTargetLostItem.lostItem.description);
+
+  console.log(currentTargetLostItem.lostItem.description, 'hi');
   return (
     <section className="flex flex-col items-center gap-10 px-6 py-10 laptop:px-16 laptop:py-12" {...props}>
       <div className="flex flex-col items-center gap-3 laptop:gap-5">
@@ -90,8 +96,8 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
         </figure>
         <div className="flex w-fit shrink flex-col gap-7">
           <hgroup className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold text-sage-12 laptop:text-3xl">{currentTargetLostItem.lostItem.title}</h2>
-            <p className="text-base text-sage-11 laptop:text-lg">{currentTargetLostItem.lostItem.description}</p>
+            <h2 className="text-2xl font-bold text-sage-12 laptop:text-3xl">{titleI18nText}</h2>
+            <p className="text-base text-sage-11 laptop:text-lg">{descriptionI18nText}</p>
           </hgroup>
           {currentTargetLostItem.drawer && <LockerMap {...currentTargetLostItem.drawer.locker} className="h-[350px] w-full" />}
           <UserActionStatusList

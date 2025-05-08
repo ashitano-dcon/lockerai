@@ -40,7 +40,9 @@ export class LostItemQuery {
     const response = new LostItemWithRatesObject();
     response.id = lostItem.id;
     response.title = lostItem.title;
+    response.titleI18n = lostItem.titleI18n;
     response.description = lostItem.description;
+    response.descriptionI18n = lostItem.descriptionI18n;
     response.imageUrls = lostItem.imageUrls;
     response.reportedAt = lostItem.reportedAt;
     response.ownedAt = lostItem.ownedAt;

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { i18nTextSchema } from '#website/i18n/locales';
 
 export const tools = {
   askForConfirmation: {
@@ -23,6 +24,8 @@ export const tools = {
           id: z.string(),
           title: z.string(),
           description: z.string(),
+          titleI18n: i18nTextSchema.describe('Internationalized title text'),
+          descriptionI18n: i18nTextSchema.describe('Internationalized description text'),
           imageUrls: z.array(z.string()),
           reportedAt: z.date(),
           deliveredAt: z.date().nullable(),
@@ -35,6 +38,7 @@ export const tools = {
                 lat: z.number(),
                 lng: z.number(),
                 location: z.string(),
+                locationI18n: i18nTextSchema.describe('Internationalized location text'),
               }),
             })
             .nullable()

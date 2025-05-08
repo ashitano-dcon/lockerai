@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 import type { LostItem } from '#website/common/model/lost-item';
 import type { UserPublicMeta } from '#website/common/model/user';
+import { type I18nText, i18nTextSchema } from '#website/i18n/locales';
 import {
   FindUserLostItemsDocument,
   type FindUserLostItemsQuery,
@@ -20,6 +21,7 @@ type FindUserLostItemsUseCaseOutput = {
         lat: number;
         lng: number;
         location: string;
+        locationI18n: I18nText;
       };
     } | null;
   } | null;
@@ -53,7 +55,9 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
       lostItem: {
         id: data.findUser!.reportedLostItems[0]!.id,
         title: data.findUser!.reportedLostItems[0]!.title,
+        titleI18n: i18nTextSchema.parse(data.findUser!.reportedLostItems[0]!.titleI18n),
         description: data.findUser!.reportedLostItems[0]!.description,
+        descriptionI18n: i18nTextSchema.parse(data.findUser!.reportedLostItems[0]!.descriptionI18n),
         imageUrls: data.findUser!.reportedLostItems[0]!.imageUrls,
         reportedAt: data.findUser!.reportedLostItems[0]!.reportedAt,
         ownedAt: data.findUser!.reportedLostItems[0]!.ownedAt ? data.findUser!.reportedLostItems[0]!.ownedAt : null,
@@ -79,7 +83,9 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
       lostItem: {
         id: data.findUser!.ownedLostItems[0]!.id,
         title: data.findUser!.ownedLostItems[0]!.title,
+        titleI18n: i18nTextSchema.parse(data.findUser!.ownedLostItems[0]!.titleI18n),
         description: data.findUser!.ownedLostItems[0]!.description,
+        descriptionI18n: i18nTextSchema.parse(data.findUser!.ownedLostItems[0]!.descriptionI18n),
         imageUrls: data.findUser!.ownedLostItems[0]!.imageUrls,
         reportedAt: data.findUser!.ownedLostItems[0]!.reportedAt,
         ownedAt: data.findUser!.ownedLostItems[0]!.ownedAt ? data.findUser!.ownedLostItems[0]!.ownedAt : null,
@@ -107,6 +113,7 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
               lat: data.findUser!.ownedLostItems[0]!.drawer.locker.lat,
               lng: data.findUser!.ownedLostItems[0]!.drawer.locker.lng,
               location: data.findUser!.ownedLostItems[0]!.drawer.locker.location,
+              locationI18n: i18nTextSchema.parse(data.findUser!.ownedLostItems[0]!.drawer.locker.locationI18n),
             },
           }
         : null,
@@ -116,7 +123,9 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
   const reportedLostItems: LostItem[] = data.findUser.reportedLostItems.map((reportedLostItem) => ({
     id: reportedLostItem.id,
     title: reportedLostItem.title,
+    titleI18n: i18nTextSchema.parse(reportedLostItem.titleI18n),
     description: reportedLostItem.description,
+    descriptionI18n: i18nTextSchema.parse(reportedLostItem.descriptionI18n),
     imageUrls: reportedLostItem.imageUrls,
     reportedAt: reportedLostItem.reportedAt,
     ownedAt: reportedLostItem.ownedAt ? reportedLostItem.ownedAt : null,
@@ -127,7 +136,9 @@ export const findUserLostItemsUseCase: FindUserLostItemsUseCase = async (authId)
   const ownedLostItems: LostItem[] = data.findUser.ownedLostItems.map((ownedLostItem) => ({
     id: ownedLostItem.id,
     title: ownedLostItem.title,
+    titleI18n: i18nTextSchema.parse(ownedLostItem.titleI18n),
     description: ownedLostItem.description,
+    descriptionI18n: i18nTextSchema.parse(ownedLostItem.descriptionI18n),
     imageUrls: ownedLostItem.imageUrls,
     reportedAt: ownedLostItem.reportedAt,
     ownedAt: ownedLostItem.ownedAt ? ownedLostItem.ownedAt : null,

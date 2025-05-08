@@ -2,6 +2,7 @@
 
 import type { LostItem } from '#website/common/model/lost-item';
 import type { UserPublicMeta } from '#website/common/model/user';
+import { i18nTextSchema } from '#website/i18n/locales';
 import {
   FindSimilarLostItemDocument,
   type FindSimilarLostItemQuery,
@@ -40,13 +41,25 @@ export const findSimilarLostItemUseCase: FindSimilarLostItemUseCase = async (des
   const lostItem: LostItem = {
     id: data.findSimilarLostItem.id,
     title: data.findSimilarLostItem.title,
+    titleI18n: i18nTextSchema.parse(data.findSimilarLostItem.titleI18n),
     description: data.findSimilarLostItem.description,
+    descriptionI18n: i18nTextSchema.parse(data.findSimilarLostItem.descriptionI18n),
     imageUrls: data.findSimilarLostItem.imageUrls,
     reportedAt: data.findSimilarLostItem.reportedAt,
     deliveredAt: data.findSimilarLostItem.deliveredAt ? data.findSimilarLostItem.deliveredAt : null,
     ownedAt: data.findSimilarLostItem.ownedAt ? data.findSimilarLostItem.ownedAt : null,
     retrievedAt: data.findSimilarLostItem.retrievedAt ? data.findSimilarLostItem.retrievedAt : null,
-    drawer: data.findSimilarLostItem.drawer,
+    drawer: data.findSimilarLostItem.drawer
+      ? {
+          id: data.findSimilarLostItem.drawer.id,
+          locker: {
+            lat: data.findSimilarLostItem.drawer.locker.lat,
+            lng: data.findSimilarLostItem.drawer.locker.lng,
+            location: data.findSimilarLostItem.drawer.locker.location,
+            locationI18n: i18nTextSchema.parse(data.findSimilarLostItem.drawer.locker.locationI18n),
+          },
+        }
+      : null,
   };
 
   const reporter = data.findSimilarLostItem.reporter

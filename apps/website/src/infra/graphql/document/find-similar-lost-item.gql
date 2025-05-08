@@ -2,6 +2,7 @@ query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
   findSimilarLostItem(lostAt: $lostAt, userDescription: $userDescription) {
     deliveredAt
     description
+    descriptionI18n
     id
     imageUrls
     ownedAt
@@ -11,6 +12,7 @@ query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
     }
     retrievedAt
     title
+    titleI18n
     approveRate
     rejectRate
     drawer {
@@ -19,6 +21,7 @@ query FindSimilarLostItem($lostAt: DateTime!, $userDescription: String!) {
         lat
         lng
         location
+        locationI18n
       }
     }
   }
