@@ -58,7 +58,6 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
   const titleI18nText = pickI18nText(currentTargetLostItem.lostItem.titleI18n, locale, currentTargetLostItem.lostItem.title);
   const descriptionI18nText = pickI18nText(currentTargetLostItem.lostItem.descriptionI18n, locale, currentTargetLostItem.lostItem.description);
 
-  console.log(currentTargetLostItem.lostItem.description, 'hi');
   return (
     <section className="flex flex-col items-center gap-10 px-6 py-10 laptop:px-16 laptop:py-12" {...props}>
       <div className="flex flex-col items-center gap-3 laptop:gap-5">
