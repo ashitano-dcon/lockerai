@@ -5,7 +5,7 @@
   },
   "Layout": {
     "metadataTitle": "Locker.ai | deliver, store, retrieve lost items securely",
-    "metadataDescription": "Locker.ai is a service that uses a unique AI-driven authentication mechanism to safely report and retrieve lost items."
+    "metadataDescription": "Locker.ai is an automated lost-and-found service powered by LLM and smart lockers"
   },
   "HeroSection": {
     "srTitle": "Locker.ai",
@@ -28,11 +28,11 @@
   },
   "Footer": {
     "srTitle": "Locker.ai",
-    "description": "AI-driven lost and found management service.",
+    "description": "Automated lost-and-found service powered by LLM and smart lockers.",
     "reference": "Reference",
     "sourceCode": "Source code",
     "design": "Design",
-    "copyright": "Copyright &copy; nitic-pbl-p8 all right reserved."
+    "copyright": "Copyright &copy; Locker.ai all right reserved."
   },
   "InAppHeader": {
     "overview": "Overview",
