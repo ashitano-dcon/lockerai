@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
+  # DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
@@ -86,11 +86,14 @@ jobs:
 
       - name: start local supabase
         run: pnpm supabase start
-
       - name: lint local db
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
         run: pnpm supabase db lint
 
       - name: deploy migration file to remote db
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm supabase db push
 
   db-push-migration-check:
