@@ -4,8 +4,8 @@
     "about": "Go to the about page"
   },
   "Layout": {
-    "metadataTitle": "Locker.ai | 遺失物を安全に届け、保管、取り出すサービス",
-    "metadataDescription": "Locker.aiは、ユニークなAI駆動認証機構を使用して、安全に遺失物を届出し、受け取りできるサービスです。"
+    "metadataTitle": "Locker.ai",
+    "metadataDescription": "Locker.aiは、LLM×スマートロッカーによる自動応対遺失物管理サービスです。"
   },
   "HeroSection": {
     "srTitle": "Locker.ai",
@@ -28,7 +28,7 @@
   },
   "Footer": {
     "srTitle": "Locker.ai",
-    "description": "AI駆動の遺失物管理サービス。",
+    "description": "LLM×スマートロッカーによる自動応対遺失物管理サービス",
     "reference": "リファレンス",
     "sourceCode": "ソースコード",
     "design": "デザイン",
@@ -78,7 +78,7 @@
     "mostSimilarItem": "\"{description}\"（{date}頃紛失）に最も類似する遺失物"
   },
   "ChatMessage": {
-    "userLabel": "あなた（遺失物の可能性のある所有者）",
+    "userLabel": "あなた（遺失物の所有者になりうる）",
     "aiLabel": "遺失物管理AI"
   },
   "DatePicker": {
@@ -96,11 +96,31 @@
   "PinnedTaskSection": {
     "currentState": "あなたは現在 {state} 中です",
     "deliveringInstruction": "遺失物の届け出処理中です。最寄りのロッカーに行き、遺失物を投入してください。",
-    "retrievingInstruction": "遺失物の受け取り処理中です。最寄りのロッカーに行き、遺失物を取り出してください。"
+    "retrievingInstruction": "遺失物の受け取り処理中です。下記より指定のロッカーまで行き、QRコードを提示して遺失物を取り出してください。"
   },
   "LockerMap": {
     "storedAt": "\"{location}\" に保管中",
     "googleMapsLink": "Googleマップ",
     "appleMapsLink": "Appleマップ"
+  },
+  "UserDropdownMenu": {
+    "avatarAlt": "あなたのアバター画像",
+    "dashboard": "ダッシュボード",
+    "searchLostItem": "遺失物を検索",
+    "reportLostItem": "遺失物を届出",
+    "github": "GitHub",
+    "figma": "Figma",
+    "disclosure": "情報公開",
+    "disclosureDescription": "オンにすると、あなたの名前とメールアドレスが遺失物を届け出たユーザーに公開されます。オフにすると、公開されず匿名化されます。",
+    "disclosureUpdated": "情報公開設定を更新しました",
+    "disclosureUpdatedDescriptionDisclosed": "あなたの名前とメールアドレスが遺失物を届け出たユーザーに公開されるようになりました。",
+    "disclosureUpdatedDescriptionHidden": "あなたの名前とメールアドレスが遺失物を届け出たユーザーに公開されないようになりました。",
+    "signOut": "サインアウト",
+    "delivering": "届出処理",
+    "retrieving": "受取処理"
+  },
+  "UserQrcodeDialog": {
+    "buttonText": "QRコード",
+    "username": "{name}さん"
   }
 }

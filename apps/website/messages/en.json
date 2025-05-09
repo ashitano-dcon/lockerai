@@ -96,11 +96,31 @@
   "PinnedTaskSection": {
     "currentState": "You are currently {state}",
     "deliveringInstruction": "You are in the process of delivering a lost item. Please go to the nearest locker and put in the lost item.",
-    "retrievingInstruction": "You are in the process of retrieving a lost item. Please go to the nearest locker and take out the lost item."
+    "retrievingInstruction": "You are in the process of retrieving a lost item. Please go to the designated locker shown below and present the QR code to retrieve your lost item."
   },
   "LockerMap": {
     "storedAt": "Stored at \"{location}\"",
     "googleMapsLink": "Google Maps",
     "appleMapsLink": "Apple Maps"
+  },
+  "UserDropdownMenu": {
+    "avatarAlt": "Your avatar image.",
+    "dashboard": "Dashboard",
+    "searchLostItem": "Search lost item",
+    "reportLostItem": "Report dropped lost item",
+    "github": "GitHub",
+    "figma": "Figma",
+    "disclosure": "Disclosure",
+    "disclosureDescription": "If on, your name and email will be disclosed to the user who reported your lost item. If it is off, it will not be disclosed and will be anonymized.",
+    "disclosureUpdated": "Disclosure has been updated",
+    "disclosureUpdatedDescriptionDisclosed": "Your name and email address will now be disclosed to the user who reported your lost item.",
+    "disclosureUpdatedDescriptionHidden": "Your name and email address will now be hidden to the user who reported your lost item.",
+    "signOut": "Sign out",
+    "delivering": "delivering",
+    "retrieving": "retrieving"
+  },
+  "UserQrcodeDialog": {
+    "buttonText": "QR Code",
+    "username": "{name}"
   }
 }

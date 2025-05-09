@@ -51,8 +51,10 @@ type PinnedTaskSectionProps = Omit<ComponentPropsWithoutRef<'section'>, 'childre
 
 export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...props }: PinnedTaskSectionProps) => {
   const t = useTranslations('PinnedTaskSection');
+  const tMenu = useTranslations('UserDropdownMenu');
   const { beacon, heading } = pinnedTaskSectionVariant({ ...variant });
   const stateLowerCase = user.lostAndFoundState.toLowerCase();
+  const stateTranslated = tMenu(stateLowerCase);
 
   const locale = useLocale();
   const titleI18nText = pickI18nText(currentTargetLostItem.lostItem.titleI18n, locale, currentTargetLostItem.lostItem.title);
@@ -72,8 +74,16 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
             />
           </span>
           <span className="text-center text-4xl font-bold text-sage-12 laptop:text-5xl">
-            {t('currentState', { state: '' })}
-            <span className={heading()}>{stateLowerCase}</span>
+            {locale === 'ja' ? (
+              <>
+                あなたは現在、<span className={heading()}>{stateTranslated}中</span>です
+              </>
+            ) : (
+              <>
+                {t('currentState', { state: '' })}
+                <span className={heading()}>{stateLowerCase}</span>
+              </>
+            )}
           </span>
         </h1>
         <p className="max-w-[820px] text-xl text-sage-11 laptop:text-2xl">
