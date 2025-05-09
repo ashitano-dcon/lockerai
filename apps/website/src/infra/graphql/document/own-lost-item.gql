@@ -2,6 +2,7 @@ mutation OwnLostItem($lostItem: LostItemWhereIdInput!, $user: UserWhereAuthIdInp
   ownLostItem(lostItem: $lostItem, user: $user) {
     deliveredAt
     description
+    descriptionI18n
     id
     imageUrls
     ownedAt
@@ -14,5 +15,6 @@ mutation OwnLostItem($lostItem: LostItemWhereIdInput!, $user: UserWhereAuthIdInp
     }
     retrievedAt
     title
+    titleI18n
   }
 }

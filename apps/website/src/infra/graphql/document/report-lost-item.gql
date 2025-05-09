@@ -2,6 +2,7 @@ mutation ReportLostItem($imageFiles: [Upload!]!, $lostItem: LostItemCreateInput!
   reportLostItem(imageFiles: $imageFiles, lostItem: $lostItem) {
     deliveredAt
     description
+    descriptionI18n
     id
     imageUrls
     ownedAt
@@ -11,5 +12,6 @@ mutation ReportLostItem($imageFiles: [Upload!]!, $lostItem: LostItemCreateInput!
     }
     retrievedAt
     title
+    titleI18n
   }
 }

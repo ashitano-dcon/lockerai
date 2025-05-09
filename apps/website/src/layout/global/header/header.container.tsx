@@ -1,8 +1,8 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { usePathname } from 'next/navigation';
 import { type ComponentPropsWithoutRef, type ReactNode, useEffect, useState } from 'react';
+import { usePathname } from '#website/i18n/navigation';
 import { Header as HeaderPresenter } from './header.presenter';
 
 export type HeaderProps = Omit<ComponentPropsWithoutRef<typeof HeaderPresenter>, 'className' | 'variant'>;

@@ -145,6 +145,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "JSON",
+        "description": "The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "Locker",
         "description": null,
@@ -254,6 +264,22 @@
             "deprecationReason": null
           },
           {
+            "name": "locationI18n",
+            "description": "多言語対応された場所情報（\"en\": \"Location in English\", \"ja\": \"場所（日本語）\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "args": [],
@@ -263,6 +289,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "nameI18n",
+            "description": "多言語対応された名前（\"en\": \"English Name\", \"ja\": \"日本語名\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
                 "ofType": null
               }
             },
@@ -388,6 +430,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "descriptionI18n",
+            "description": "多言語対応された説明文（\"en\": \"Description in English\", \"ja\": \"説明文（日本語）\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
                 "ofType": null
               }
             },
@@ -529,6 +587,22 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "titleI18n",
+            "description": "多言語対応されたタイトル（\"en\": \"Title in English\", \"ja\": \"タイトル（日本語）\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -543,6 +617,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "descriptionI18n",
+            "description": "多言語対応された説明文（\"en\": \"Description in English\", \"ja\": \"説明文（日本語）\"のような形式）",
+            "type": {
+              "kind": "SCALAR",
+              "name": "JSON",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reporterId",
             "description": null,
             "type": {
@@ -553,6 +639,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "titleI18n",
+            "description": "多言語対応されたタイトル（\"en\": \"Title in English\", \"ja\": \"タイトル（日本語）\"のような形式）",
+            "type": {
+              "kind": "SCALAR",
+              "name": "JSON",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -633,6 +731,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "descriptionI18n",
+            "description": "多言語対応された説明文（\"en\": \"Description in English\", \"ja\": \"説明文（日本語）\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
                 "ofType": null
               }
             },
@@ -785,6 +899,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "titleI18n",
+            "description": "多言語対応されたタイトル（\"en\": \"Title in English\", \"ja\": \"タイトル（日本語）\"のような形式）",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "JSON",
                 "ofType": null
               }
             },

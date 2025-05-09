@@ -2,6 +2,7 @@ import { Image } from '#core/component/image';
 import { BrandIcon } from '@lockerai/core/component/brand-icon';
 import { Link } from '@lockerai/core/component/link';
 import { cn } from '@lockerai/tailwind';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import type { User } from '#website/common/model/user';
 import { HeaderLink } from './component/header-link';
@@ -52,42 +53,45 @@ export type InAppHeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'classNa
   user: User | null;
 };
 
-export const InAppHeader = ({ user, children, ...props }: InAppHeaderProps): ReactNode => (
-  <header
-    className={
-      'sticky left-0 top-0 z-20 flex w-full flex-col items-start justify-center overflow-hidden border-b border-green-6/50 bg-gradient-to-b from-green-1 to-[200%] backdrop-blur-lg'
-    }
-    {...props}
-  >
-    <div className="flex w-full grow flex-row items-center justify-between gap-2 px-6 py-3 desktop:px-10">
-      <div className="flex w-full flex-row items-center gap-0 tablet:gap-1">
-        <Link href="/" className="transition hover:opacity-70">
-          <span className="sr-only">Locker.ai</span>
-          <BrandIcon aria-hidden className={'block h-14 w-12'} />
-        </Link>
-        {children}
+export const InAppHeader = ({ user, children, ...props }: InAppHeaderProps): ReactNode => {
+  const t = useTranslations('InAppHeader');
+  return (
+    <header
+      className={
+        'sticky left-0 top-0 z-20 flex w-full flex-col items-start justify-center overflow-hidden border-b border-green-6/50 bg-gradient-to-b from-green-1 to-[200%] backdrop-blur-lg'
+      }
+      {...props}
+    >
+      <div className="flex w-full grow flex-row items-center justify-between gap-2 px-6 py-3 desktop:px-10">
+        <div className="flex w-full flex-row items-center gap-0 tablet:gap-1">
+          <Link href="/" className="transition hover:opacity-70">
+            <span className="sr-only">Locker.ai</span>
+            <BrandIcon aria-hidden className={'block h-14 w-12'} />
+          </Link>
+          {children}
+        </div>
+        <div className="flex shrink-0 grow-0 items-center gap-6 justify-self-end">
+          {user ? (
+            <>
+              <UserQrcodeDialog user={user} />
+              <UserDropdownMenu user={user} />
+            </>
+          ) : (
+            <SignInButton />
+          )}
+        </div>
       </div>
-      <div className="flex shrink-0 grow-0 items-center gap-6 justify-self-end">
-        {user ? (
-          <>
-            <UserQrcodeDialog user={user} />
-            <UserDropdownMenu user={user} />
-          </>
-        ) : (
-          <SignInButton />
-        )}
-      </div>
-    </div>
-    <nav className="flex w-full flex-row gap-1 px-6 tablet:w-fit desktop:px-16">
-      <HeaderLink href="/dashboard" className="max-w-40 grow tablet:grow-0">
-        Overview
-      </HeaderLink>
-      <HeaderLink href="/search" className="max-w-40 grow tablet:grow-0">
-        Search
-      </HeaderLink>
-      <HeaderLink href="/report" className="max-w-40 grow tablet:grow-0">
-        Report
-      </HeaderLink>
-    </nav>
-  </header>
-);
+      <nav className="flex w-full flex-row gap-1 px-6 tablet:w-fit desktop:px-16">
+        <HeaderLink href="/dashboard" className="max-w-40 grow tablet:grow-0">
+          {t('overview')}
+        </HeaderLink>
+        <HeaderLink href="/search" className="max-w-40 grow tablet:grow-0">
+          {t('search')}
+        </HeaderLink>
+        <HeaderLink href="/report" className="max-w-40 grow tablet:grow-0">
+          {t('report')}
+        </HeaderLink>
+      </nav>
+    </header>
+  );
+};

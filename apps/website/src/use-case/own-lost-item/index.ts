@@ -2,6 +2,7 @@
 
 import type { LostItem } from '#website/common/model/lost-item';
 import type { User } from '#website/common/model/user';
+import { i18nTextSchema } from '#website/i18n/locales';
 import { OwnLostItemDocument, type OwnLostItemMutation, type OwnLostItemMutationVariables } from '#website/infra/graphql/generated/graphql';
 import { urqlClient } from '#website/infra/urql';
 
@@ -23,7 +24,9 @@ export const ownLostItemUseCase: OwnLostItemUseCase = async (lostItemId, authId)
   return {
     id: data.ownLostItem.id,
     title: data.ownLostItem.title,
+    titleI18n: i18nTextSchema.parse(data.ownLostItem.titleI18n),
     description: data.ownLostItem.description,
+    descriptionI18n: i18nTextSchema.parse(data.ownLostItem.descriptionI18n),
     imageUrls: data.ownLostItem.imageUrls,
     reportedAt: data.ownLostItem.reportedAt,
     ownedAt: data.ownLostItem.ownedAt ?? null,

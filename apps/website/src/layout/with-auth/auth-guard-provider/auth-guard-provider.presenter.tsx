@@ -1,8 +1,8 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { usePathname, useRouter } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
+import { usePathname, useRouter } from '#website/i18n/navigation';
 
 export const AuthGuardProvider = (): ReactNode => {
   const router = useRouter();
@@ -15,7 +15,9 @@ export const AuthGuardProvider = (): ReactNode => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_, session) => {
       if (session === null) {
-        router.replace(`/?asAuth=true&redirectPathname=${encodeURIComponent(pathname)}`);
+        setTimeout(() => {
+          router.replace(`/?asAuth=true&redirectPathname=${encodeURIComponent(pathname)}`);
+        }, 0);
       }
     });
 

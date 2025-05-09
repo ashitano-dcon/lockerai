@@ -1,6 +1,8 @@
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
+import { getLocale } from 'next-intl/server';
 import { tools } from '#website/common/types/chat';
+import { type I18nText, localeSchema } from '~website/src/i18n/locales';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -163,19 +165,32 @@ Adidas「SAMBA」スニーカー。色は白で、つま先部分はグレーの
 こちらでお間違いなければ、のボタンをクリックして受け取りの申請をお願いいたします。
 </Assistant>
 </Example>
+
+<System>
+絶対に、ユーザーの入力言語に応じて、同じ言語で回答してください。
+</System>
 ` as const;
+
+// 多言語対応のインストラクション
+const languageInstructions: I18nText = {
+  en: 'You must answer in English no matter what.',
+  ja: '絶対に、日本語で回答してください。',
+};
 
 // -------------------------------------
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
+  const locale = localeSchema.parse(await getLocale());
 
   const result = streamText({
     model: openai('gpt-4.1'),
-    system: SYSTEM_PROMPT,
+    system: `${SYSTEM_PROMPT}\n\n${languageInstructions[locale]}`,
     messages,
     tools,
   });
 
   return result.toDataStreamResponse();
 }
+
+export const dynamic = 'force-dynamic';

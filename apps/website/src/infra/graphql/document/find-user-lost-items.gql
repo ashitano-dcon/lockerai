@@ -4,6 +4,7 @@ query FindUserLostItems($where: UserWhereAuthIdInput!) {
     ownedLostItems {
       deliveredAt
       description
+      descriptionI18n
       id
       imageUrls
       ownedAt
@@ -16,18 +17,21 @@ query FindUserLostItems($where: UserWhereAuthIdInput!) {
       }
       retrievedAt
       title
+      titleI18n
       drawer {
         id
         locker {
           lat
           lng
           location
+          locationI18n
         }
       }
     }
     reportedLostItems {
       deliveredAt
       description
+      descriptionI18n
       id
       imageUrls
       ownedAt
@@ -40,12 +44,14 @@ query FindUserLostItems($where: UserWhereAuthIdInput!) {
       }
       retrievedAt
       title
+      titleI18n
       drawer {
         id
         locker {
           lat
           lng
           location
+          locationI18n
         }
       }
     }

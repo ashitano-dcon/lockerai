@@ -4,6 +4,7 @@ import { Button } from '@lockerai/core/component/button';
 import { Dialog, DialogContent } from '@lockerai/core/component/dialog';
 import { Image } from '@lockerai/core/component/image';
 import { MagnifyingGlassEmojiIcon } from '@lockerai/core/icon/magnifying-glass-emoji-icon';
+import { useTranslations } from 'next-intl';
 import { type ComponentPropsWithoutRef, type ReactNode, useState } from 'react';
 import { UserActionStatusList } from '#website/common/component/user-action-status-list';
 import type { LostItem } from '#website/common/model/lost-item';
@@ -18,6 +19,8 @@ type ConfirmDialogProps = Omit<ComponentPropsWithoutRef<typeof Dialog>, 'childre
 };
 
 export const ConfirmDialog = ({ user, lostItem, reporter, onOwned, onOpenChange, ...props }: ConfirmDialogProps): ReactNode => {
+  const t = useTranslations('ConfirmDialog');
+  const tTool = useTranslations('ToolInvocation');
   const [loading, setLoading] = useState(false);
 
   return (
@@ -26,7 +29,7 @@ export const ConfirmDialog = ({ user, lostItem, reporter, onOwned, onOpenChange,
         <div className="flex flex-col items-center gap-14">
           <div className="flex flex-col items-center gap-6">
             <p className="flex flex-col-reverse items-center gap-3 tablet:flex-row">
-              <span className="text-center text-3xl font-bold text-sage-12 tablet:text-4xl">Similar lost item found!</span>
+              <span className="text-center text-3xl font-bold text-sage-12 tablet:text-4xl">{t('title')}</span>
               <MagnifyingGlassEmojiIcon className="h-10 w-auto" />
             </p>
             <div className="flex w-[80vw] flex-col items-center gap-6 tablet:flex-row tablet:gap-10">
@@ -63,7 +66,7 @@ export const ConfirmDialog = ({ user, lostItem, reporter, onOwned, onOpenChange,
                 onOpenChange?.(false);
               }}
             >
-              It&apos;s not mine
+              {t('rejectButton')}
             </Button>
             <Button
               disabled={loading}
@@ -79,7 +82,7 @@ export const ConfirmDialog = ({ user, lostItem, reporter, onOwned, onOpenChange,
                 setLoading(false);
               }}
             >
-              It&apos;s mine
+              {tTool('claimButton')}
             </Button>
           </div>
         </div>

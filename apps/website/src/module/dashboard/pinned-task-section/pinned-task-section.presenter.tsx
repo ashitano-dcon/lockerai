@@ -1,9 +1,11 @@
 import { Image } from '@lockerai/core/component/image';
 import { type VariantProps, cn, tv } from '@lockerai/tailwind';
+import { useLocale, useTranslations } from 'next-intl';
 import type { ComponentPropsWithoutRef } from 'react';
 import { UserActionStatusList } from '#website/common/component/user-action-status-list';
 import type { CurrentTargetLostItem } from '#website/common/model/lost-item';
 import type { User } from '#website/common/model/user';
+import { pickI18nText } from '#website/i18n/locales';
 import { LockerMap } from './locker-map';
 
 const pinnedTaskSectionVariant = tv({
@@ -48,7 +50,15 @@ type PinnedTaskSectionProps = Omit<ComponentPropsWithoutRef<'section'>, 'childre
 };
 
 export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...props }: PinnedTaskSectionProps) => {
+  const t = useTranslations('PinnedTaskSection');
+  const tMenu = useTranslations('UserDropdownMenu');
   const { beacon, heading } = pinnedTaskSectionVariant({ ...variant });
+  const stateLowerCase = user.lostAndFoundState.toLowerCase();
+  const stateTranslated = tMenu(stateLowerCase);
+
+  const locale = useLocale();
+  const titleI18nText = pickI18nText(currentTargetLostItem.lostItem.titleI18n, locale, currentTargetLostItem.lostItem.title);
+  const descriptionI18nText = pickI18nText(currentTargetLostItem.lostItem.descriptionI18n, locale, currentTargetLostItem.lostItem.description);
 
   return (
     <section className="flex flex-col items-center gap-10 px-6 py-10 laptop:px-16 laptop:py-12" {...props}>
@@ -64,12 +74,20 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
             />
           </span>
           <span className="text-center text-4xl font-bold text-sage-12 laptop:text-5xl">
-            You are currently <span className={heading()}>{user.lostAndFoundState.toLowerCase()}</span>
+            {locale === 'ja' ? (
+              <>
+                あなたは現在、<span className={heading()}>{stateTranslated}中</span>です
+              </>
+            ) : (
+              <>
+                {t('currentState', { state: '' })}
+                <span className={heading()}>{stateLowerCase}</span>
+              </>
+            )}
           </span>
         </h1>
         <p className="max-w-[820px] text-xl text-sage-11 laptop:text-2xl">
-          You are in the process of {user.lostAndFoundState.toLowerCase()} a lost item. Please go to the nearest locker and{' '}
-          {user.lostAndFoundState === 'DELIVERING' ? 'put in' : 'take out'} the lost item.
+          {user.lostAndFoundState === 'DELIVERING' ? t('deliveringInstruction') : t('retrievingInstruction')}
         </p>
       </div>
       <div className="flex flex-col items-center gap-10 laptop:flex-row">
@@ -87,8 +105,8 @@ export const PinnedTaskSection = ({ user, currentTargetLostItem, variant, ...pro
         </figure>
         <div className="flex w-fit shrink flex-col gap-7">
           <hgroup className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold text-sage-12 laptop:text-3xl">{currentTargetLostItem.lostItem.title}</h2>
-            <p className="text-base text-sage-11 laptop:text-lg">{currentTargetLostItem.lostItem.description}</p>
+            <h2 className="text-2xl font-bold text-sage-12 laptop:text-3xl">{titleI18nText}</h2>
+            <p className="text-base text-sage-11 laptop:text-lg">{descriptionI18nText}</p>
           </hgroup>
           {currentTargetLostItem.drawer && <LockerMap {...currentTargetLostItem.drawer.locker} className="h-[350px] w-full" />}
           <UserActionStatusList

@@ -10,6 +10,7 @@ const config: CodegenConfig = {
         scalars: {
           DateTime: 'Date',
           Upload: 'File',
+          JSON: 'unknown',
         },
         strictScalars: true,
         withHooks: false,

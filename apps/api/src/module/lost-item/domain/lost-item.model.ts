@@ -1,9 +1,15 @@
+import { type I18nText } from '#api/common/type/locale';
+
 export class LostItem {
   readonly id: string;
 
   readonly title: string;
 
+  readonly titleI18n: I18nText;
+
   readonly description: string;
+
+  readonly descriptionI18n: I18nText;
 
   readonly imageUrls: string[];
 
@@ -24,7 +30,9 @@ export class LostItem {
   constructor({
     id,
     title,
+    titleI18n,
     description,
+    descriptionI18n,
     imageUrls,
     drawerId,
     reporterId,
@@ -36,7 +44,9 @@ export class LostItem {
   }: Omit<LostItem, 'hasDelivered' | 'hasRetrieved'>) {
     this.id = id;
     this.title = title;
+    this.titleI18n = titleI18n;
     this.description = description;
+    this.descriptionI18n = descriptionI18n;
     this.imageUrls = imageUrls;
     this.drawerId = drawerId;
     this.reporterId = reporterId;

@@ -1,6 +1,7 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { z } from 'zod';
 import { EnvService } from '#api/common/service/env/env.service';
+import type { I18nText, Locale } from '#api/common/type/locale';
 
 @Injectable()
 export class LangchainService {
@@ -167,6 +168,90 @@ export class LangchainService {
     const translatedText = await this.parseOutputAsStructure(res.content.toString(), schema);
 
     return translatedText;
+  }
+
+  async translateFromEnglishTo(text: string, targetLocale: Locale) {
+    const SystemMessage = await this.SystemMessage;
+    const HumanMessage = await this.HumanMessage;
+
+    if (!this.llm) {
+      await this.initLlm();
+      if (!this.llm) {
+        throw new Error('Failed to create LLM instance.');
+      }
+    }
+
+    const languageMap: I18nText = {
+      en: 'English',
+      ja: 'Japanese (日本語)',
+    };
+    const targetLanguage = languageMap[targetLocale];
+
+    const schema = z
+      .object({
+        translatedText: z.string().describe(`The text translated to ${targetLanguage}.`),
+      })
+      .or(
+        z.object({
+          error: z.string().describe(`The reason why AI has failed to translate.`),
+        }),
+      );
+
+    const res = await this.llm.invoke([
+      new SystemMessage({
+        content: [
+          {
+            type: 'text',
+            text: `
+                Translator is designed to translate English text into ${targetLanguage}.
+                Upon receiving an English text, the AI will provide output in JSON format with the following structure \`Result\`:
+
+                translatedText: This field will provide the translated ${targetLanguage} text.
+                error: This field will provide the detailed reason why translation has failed. The Reason must be explained in as much detail as possible and not just the fact of failure.
+
+                \`\`\`ts
+                type Result =
+                  | {
+                      translatedText: string;
+                    }
+                  | {
+                      error: string;
+                    };
+                \`\`\`
+              `,
+          },
+        ],
+      }),
+      new HumanMessage({
+        content: [
+          {
+            type: 'text',
+            text,
+          },
+        ],
+      }),
+    ]);
+
+    const translatedText = await this.parseOutputAsStructure(res.content.toString(), schema);
+
+    return translatedText;
+  }
+
+  async translateToI18nText(text: string): Promise<Record<Locale, string>> {
+    // 英語の場合はそのまま使用
+    const enText = text;
+
+    // 日本語に翻訳
+    const jaTranslation = await this.translateFromEnglishTo(text, 'ja');
+
+    if ('error' in jaTranslation) {
+      throw new Error(`Failed to translate to Japanese: ${jaTranslation.error}`);
+    }
+
+    return {
+      en: enText,
+      ja: jaTranslation.translatedText,
+    };
   }
 
   private async initEmbeddingModel() {

@@ -1,9 +1,9 @@
 import { BrandIcon } from '@lockerai/core/component/brand-icon';
 import { BrandLogo } from '@lockerai/core/component/brand-logo';
-import { Link } from '@lockerai/core/component/link';
 import { type VariantProps, cn, tv } from '@lockerai/tailwind';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { User } from '#website/common/model/user';
+import { Link } from '#website/i18n/navigation';
 import { SignInButton } from './component/sign-in-button';
 import { UserDropdownMenu } from './component/user-dropdown-menu';
 
