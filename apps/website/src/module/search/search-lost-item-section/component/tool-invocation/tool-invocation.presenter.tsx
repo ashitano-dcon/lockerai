@@ -92,8 +92,6 @@ export const ToolInvocation = <T extends ToolName>({ toolInvocation, onClaim }: 
 
         const descriptionI18nText = pickI18nText(descriptionI18n, locale, description);
 
-        console.log(titleI18nText, descriptionI18nText, locale);
-
         const approvePercentage = Math.round(approveRate * 100);
         const rejectPercentage = Math.round(rejectRate * 100);
 
