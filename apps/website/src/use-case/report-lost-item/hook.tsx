@@ -1,6 +1,7 @@
 import { useMutation } from '@urql/next';
 import type { LostItem } from '#website/common/model/lost-item';
 import type { User } from '#website/common/model/user';
+import { i18nTextSchema } from '#website/i18n/locales';
 import { ReportLostItemDocument, type ReportLostItemMutation, type ReportLostItemMutationVariables } from '#website/infra/graphql/generated/graphql';
 
 type ExecuteInput = {
@@ -41,7 +42,9 @@ export const useUseReportLostItemUseCase: UseReportLostItemUseCase = () => {
       executedData && {
         id: executedData.reportLostItem.id,
         title: executedData.reportLostItem.title,
+        titleI18n: i18nTextSchema.parse(executedData.reportLostItem.titleI18n),
         description: executedData.reportLostItem.description,
+        descriptionI18n: i18nTextSchema.parse(executedData.reportLostItem.descriptionI18n),
         imageUrls: executedData.reportLostItem.imageUrls,
         reportedAt: executedData.reportLostItem.reportedAt,
         ownedAt: executedData.reportLostItem.ownedAt ?? null,
@@ -55,7 +58,9 @@ export const useUseReportLostItemUseCase: UseReportLostItemUseCase = () => {
     data && {
       id: data.reportLostItem.id,
       title: data.reportLostItem.title,
+      titleI18n: i18nTextSchema.parse(data.reportLostItem.titleI18n),
       description: data.reportLostItem.description,
+      descriptionI18n: i18nTextSchema.parse(data.reportLostItem.descriptionI18n),
       imageUrls: data.reportLostItem.imageUrls,
       reportedAt: data.reportLostItem.reportedAt,
       ownedAt: data.reportLostItem.ownedAt ?? null,
